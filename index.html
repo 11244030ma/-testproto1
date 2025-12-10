@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Food App - Web Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #FFFDF8;
+            color: #4A4A4A;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .restaurant-card,
+        body.dark-mode .menu-item,
+        body.dark-mode .cart-summary,
+        body.dark-mode .order-summary,
+        body.dark-mode .delivery-info,
+        body.dark-mode .payment-info {
+            background: rgba(40, 40, 40, 0.92);
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .header {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a4a3a 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #F7F5F0 0%, #AFC8A6 100%);
+            border-radius: 22px;
+            margin-bottom: 32px;
+        }
+        
+        .header h1 {
+            font-size: 34px;
+            font-weight: 300;
+            color: #4A4A4A;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            color: #6B6B6B;
+        }
+        
+        .search-bar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 22px;
+            padding: 16px 24px;
+            margin-bottom: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-bar input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 16px;
+            color: #4A4A4A;
+        }
+        
+        .search-bar input::placeholder {
+            color: #B8B8B8;
+        }
+        
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .restaurant-card {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            cursor: pointer;
+        }
+        
+        .restaurant-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .restaurant-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #AFC8A6, #F7F5F0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+        
+        .restaurant-info {
+            padding: 20px;
+        }
+        
+        .restaurant-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #4A4A4A;
+            margin-bottom: 8px;
+        }
+        
+        .restaurant-cuisine {
+            font-size: 16px;
+            color: #6B6B6B;
+            margin-bottom: 12px;
+        }
+        
+        .restaurant-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #AFC8A6;
+            font-weight: 600;
+        }
+        
+        .delivery-time {
+            color: #6B6B6B;
+            font-size: 14px;
+        }
+        
+        .delivery-fee {
+            color: #AFC8A6;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        
+        .toggle-button {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #D9D9D9;
+            padding: 12px 24px;
+            border-radius: 16px;
+            margin: 0 8px;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            font-size: 16px;
+            color: #4A4A4A;
+        }
+        
+        .toggle-button.active {
+            background: #AFC8A6;
+            color: white;
+            border-color: #AFC8A6;
+        }
+        
+        .toggle-button:hover {
+            transform: scale(0.96);
+        }
+        
+        .map-view {
+            background: linear-gradient(135deg, #F7F5F0 0%, #AFC8A6 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .map-title {
+            font-size: 24px;
+            font-weight: 300;
+            color: #4A4A4A;
+            margin-bottom: 8px;
+        }
+        
+        .map-subtitle {
+            color: #6B6B6B;
+            margin-bottom: 24px;
+        }
+        
+        .restaurant-markers {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+        
+        .marker {
+            background: rgba(255, 255, 255, 0.96);
+            padding: 12px 16px;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: transform 0.2s ease-out;
+        }
+        
+        .marker:hover {
+            transform: scale(1.05);
+        }
+        
+        .marker-name {
+            font-weight: 600;
+            color: #4A4A4A;
+            font-size: 11px;
+        }
+        
+        .marker-rating {
+            font-size: 10px;
+            color: #AFC8A6;
+        }
+        
+        /* Menu View Styles */
+        .menu-header {
+            margin-bottom: 24px;
+        }
+        
+        .back-button {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #D9D9D9;
+            padding: 12px 20px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #4A4A4A;
+            margin-bottom: 16px;
+            transition: all 0.2s ease-out;
+        }
+        
+        .back-button:hover {
+            transform: scale(0.96);
+            background: #AFC8A6;
+            color: white;
+        }
+        
+        .restaurant-header {
+            background: linear-gradient(135deg, #F7F5F0 0%, #AFC8A6 100%);
+            padding: 24px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .menu-items {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .menu-item {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-out;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-1px);
+        }
+        
+        .menu-item-info h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4A4A4A;
+            margin-bottom: 4px;
+        }
+        
+        .menu-item-info p {
+            color: #6B6B6B;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .menu-item-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #AFC8A6;
+        }
+        
+        .add-button {
+            background: #AFC8A6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease-out;
+        }
+        
+        .add-button:hover {
+            transform: scale(0.96);
+            background: #9BB896;
+        }
+        
+        /* Cart Styles */
+        .cart-summary {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            bottom: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .checkout-button {
+            width: 100%;
+            background: #AFC8A6;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s ease-out;
+        }
+        
+        .checkout-button:hover {
+            transform: scale(0.98);
+            background: #9BB896;
+        }
+        
+        /* Checkout Styles */
+        .checkout-header h2 {
+            font-size: 28px;
+            color: #4A4A4A;
+            margin-bottom: 24px;
+        }
+        
+        .checkout-content {
+            display: grid;
+            gap: 24px;
+        }
+        
+        .order-summary {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .delivery-info, .payment-info {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .delivery-info h3, .payment-info h3 {
+            color: #4A4A4A;
+            margin-bottom: 16px;
+        }
+        
+        .address-input, .payment-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #D9D9D9;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        
+        .address-input:focus, .payment-select:focus {
+            border-color: #AFC8A6;
+        }
+        
+        .place-order-button {
+            width: 100%;
+            background: #AFC8A6;
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+        }
+        
+        .place-order-button:hover {
+            transform: scale(0.98);
+            background: #9BB896;
+        }
+        
+        /* Confirmation Styles */
+        .confirmation-content {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .success-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+        
+        .confirmation-content h2 {
+            font-size: 32px;
+            color: #4A4A4A;
+            margin-bottom: 16px;
+        }
+        
+        .confirmation-content p {
+            font-size: 18px;
+            color: #6B6B6B;
+            margin-bottom: 32px;
+        }
+        
+        .order-details {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+        
+        .status-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            padding: 0 20px;
+        }
+        
+        .status-step {
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: #F0F0F0;
+            color: #6B6B6B;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .status-step.active {
+            background: #AFC8A6;
+            color: white;
+        }
+        
+        .new-order-button {
+            background: #AFC8A6;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+        }
+        
+        .new-order-button:hover {
+            transform: scale(0.96);
+            background: #9BB896;
+        }
+        
+        /* Navigation Styles */
+        .main-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-button {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #D9D9D9;
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #4A4A4A;
+            transition: all 0.2s ease-out;
+        }
+        
+        .nav-button.active {
+            background: #AFC8A6;
+            color: white;
+            border-color: #AFC8A6;
+        }
+        
+        .nav-button:hover {
+            transform: scale(0.96);
+        }
+        
+        .feature-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .feature-btn {
+            background: linear-gradient(135deg, #AFC8A6 0%, #9BB896 100%);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease-out;
+        }
+        
+        .feature-btn:hover {
+            transform: scale(0.95);
+            box-shadow: 0 4px 8px rgba(175, 200, 166, 0.3);
+        }
+        
+        /* Spin Wheel Styles */
+        .spin-wheel-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .wheel-container {
+            position: relative;
+            display: inline-block;
+            margin: 40px 0;
+        }
+        
+        .spin-wheel {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 8px solid #AFC8A6;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+            transition: transform 3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .wheel-section {
+            width: 50%;
+            height: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            background: linear-gradient(45deg, #F7F5F0, #AFC8A6);
+        }
+        
+        .wheel-section:nth-child(odd) {
+            background: linear-gradient(45deg, #AFC8A6, #9BB896);
+        }
+        
+        .wheel-pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            z-index: 10;
+        }
+        
+        .spin-button {
+            background: linear-gradient(135deg, #AFC8A6 0%, #9BB896 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            margin-top: 20px;
+        }
+        
+        .spin-button:hover {
+            transform: scale(0.96);
+            box-shadow: 0 8px 16px rgba(175, 200, 166, 0.4);
+        }
+        
+        .spin-result {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(175, 200, 166, 0.1);
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        /* Profile Styles */
+        .profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 24px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #AFC8A6 0%, #9BB896 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+        }
+        
+        .profile-info h2 {
+            margin: 0 0 8px 0;
+            color: #4A4A4A;
+        }
+        
+        .profile-info p {
+            margin: 4px 0;
+            color: #6B6B6B;
+        }
+        
+        .profile-sections {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .profile-section {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 20px;
+            border-radius: 16px;
+        }
+        
+        .profile-section h3 {
+            margin: 0 0 16px 0;
+            color: #4A4A4A;
+        }
+        
+        .address-item, .payment-item {
+            padding: 12px;
+            background: #F7F5F0;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .add-address-btn, .add-payment-btn {
+            background: #AFC8A6;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .preferences label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        
+        .preferences input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        
+        /* Favorites Styles */
+        .favorites-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        /* Order History Styles */
+        .order-history-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .order-item {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid #AFC8A6;
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .order-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .order-status.delivered {
+            background: #A8D5A8;
+            color: #2D5A2D;
+        }
+        
+        .order-status.preparing {
+            background: #F5D5A8;
+            color: #8B4513;
+        }
+        
+        /* Filters Styles */
+        .filters-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .filter-section {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-section h3 {
+            margin: 0 0 16px 0;
+            color: #4A4A4A;
+        }
+        
+        .filter-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .filter-pill {
+            background: #F7F5F0;
+            border: 1px solid #D9D9D9;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #4A4A4A;
+            transition: all 0.2s ease-out;
+        }
+        
+        .filter-pill.active {
+            background: #AFC8A6;
+            color: white;
+            border-color: #AFC8A6;
+        }
+        
+        .filter-pill:hover {
+            transform: scale(0.96);
+        }
+        
+        .apply-filters-btn {
+            width: 100%;
+            background: #AFC8A6;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        /* Promo Codes Styles */
+        .promo-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .promo-input {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .promo-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #D9D9D9;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+        
+        .promo-input button {
+            background: #AFC8A6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .promo-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .promo-icon {
+            font-size: 32px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #AFC8A6 0%, #9BB896 100%);
+            border-radius: 50%;
+        }
+        
+        .promo-info {
+            flex: 1;
+        }
+        
+        .promo-info h3 {
+            margin: 0 0 4px 0;
+            color: #4A4A4A;
+            font-family: monospace;
+        }
+        
+        .promo-info p {
+            margin: 0 0 4px 0;
+            color: #6B6B6B;
+        }
+        
+        .promo-info small {
+            color: #9B9B9B;
+        }
+        
+        .promo-card button {
+            background: #AFC8A6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        
+        .star {
+            font-size: 32px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .star:hover {
+            transform: scale(1.2);
+        }
+        
+        .star.selected {
+            filter: brightness(1.2);
+        }
+        
+        #reviewText {
+            width: 100%;
+            height: 80px;
+            padding: 12px;
+            border: 1px solid #D9D9D9;
+            border-radius: 12px;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .modal-buttons button:first-child {
+            background: #AFC8A6;
+            color: white;
+        }
+        
+        .modal-buttons button:last-child {
+            background: #F0F0F0;
+            color: #4A4A4A;
+        }
+        
+        /* Enhanced Order Tracking */
+        .delivery-tracking {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .driver-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .driver-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #AFC8A6 0%, #9BB896 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .tracking-map {
+            background: #F7F5F0;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 16px;
+            color: #4A4A4A;
+        }
+        
+        .rate-order-button {
+            background: #F5D5A8;
+            color: #8B4513;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 12px;
+            transition: all 0.2s ease-out;
+        }
+        
+        .rate-order-button:hover {
+            transform: scale(0.96);
+            background: #F0C878;
+        }
+
+        @media (max-width: 768px) {
+            .restaurants-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+            
+            .status-timeline {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ Premium Food Delivery</h1>
+            <p>Discover amazing restaurants near you</p>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search restaurants, cuisines..." id="searchInput">
+        </div>
+        
+        <!-- Main Navigation -->
+        <div class="main-nav">
+            <button class="nav-button active" onclick="showHome()">🏠 Home</button>
+            <button class="nav-button" onclick="showProfile()">👤 Profile</button>
+            <button class="nav-button" onclick="showFavorites()">❤️ Favorites</button>
+            <button class="nav-button" onclick="showOrderHistory()">📋 Orders</button>
+            <button class="nav-button" onclick="toggleDarkMode()">🌙 Dark</button>
+        </div>
+
+        <!-- Feature Buttons -->
+        <div class="feature-buttons">
+            <button class="feature-btn" onclick="showSpinWheel()">🎲 Spin Wheel</button>
+            <button class="feature-btn" onclick="showTrending()">🔥 Trending</button>
+            <button class="feature-btn" onclick="showFilters()">🔍 Filters</button>
+            <button class="feature-btn" onclick="showPromoCodes()">🎁 Promos</button>
+        </div>
+
+        <div class="view-toggle">
+            <button class="toggle-button active" onclick="showListView()">📋 List View</button>
+            <button class="toggle-button" onclick="showMapView()">🗺️ Map View</button>
+        </div>
+        
+        <div id="listView" class="restaurants-grid">
+            <!-- Restaurants will be populated by JavaScript -->
+        </div>
+        
+        <div id="mapView" class="map-view" style="display: none;">
+            <div class="map-title">Restaurant Locations</div>
+            <div class="map-subtitle">37.7749, -122.4194 (San Francisco)</div>
+            <div class="restaurant-markers" id="markers">
+                <!-- Markers will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Restaurant Menu View -->
+        <div id="menuView" style="display: none;">
+            <div class="menu-header">
+                <button class="back-button" onclick="goBack()">← Back to Restaurants</button>
+                <div id="restaurantInfo"></div>
+            </div>
+            <div class="menu-items" id="menuItems"></div>
+            <div class="cart-summary" id="cartSummary" style="display: none;">
+                <div class="cart-items" id="cartItems"></div>
+                <button class="checkout-button" onclick="showCheckout()">Proceed to Checkout</button>
+            </div>
+        </div>
+
+        <!-- Checkout View -->
+        <div id="checkoutView" style="display: none;">
+            <div class="checkout-header">
+                <button class="back-button" onclick="goToMenu()">← Back to Menu</button>
+                <h2>Checkout</h2>
+            </div>
+            <div class="checkout-content">
+                <div class="order-summary" id="orderSummary"></div>
+                <div class="delivery-info">
+                    <h3>Delivery Address</h3>
+                    <input type="text" placeholder="Street Address" class="address-input">
+                    <input type="text" placeholder="City, State, ZIP" class="address-input">
+                </div>
+                <div class="payment-info">
+                    <h3>Payment Method</h3>
+                    <select class="payment-select">
+                        <option>💳 Credit Card ending in 1234</option>
+                        <option>💳 Credit Card ending in 5678</option>
+                        <option>📱 Apple Pay</option>
+                    </select>
+                </div>
+                <button class="place-order-button" onclick="placeOrder()">Place Order - $<span id="totalAmount">0.00</span></button>
+            </div>
+        </div>
+
+        <!-- Order Confirmation View -->
+        <div id="confirmationView" style="display: none;">
+            <div class="confirmation-content">
+                <div class="success-icon">✅</div>
+                <h2>Order Confirmed!</h2>
+                <p>Your order has been placed successfully</p>
+                <div class="order-details" id="orderDetails"></div>
+                <div class="order-tracking">
+                    <div class="status-timeline">
+                        <div class="status-step active">📋 Confirmed</div>
+                        <div class="status-step">👨‍🍳 Preparing</div>
+                        <div class="status-step">🚗 On the Way</div>
+                        <div class="status-step">🏠 Delivered</div>
+                    </div>
+                </div>
+                <div class="delivery-tracking">
+                    <h3>🚚 Live Tracking</h3>
+                    <div class="driver-info">
+                        <div class="driver-avatar">👨‍🚗</div>
+                        <div>
+                            <p><strong>Mike Johnson</strong> - Your Driver</p>
+                            <p>📱 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="tracking-map">🗺️ Driver is 5 minutes away</div>
+                </div>
+                <button class="new-order-button" onclick="startNewOrder()">Order Again</button>
+                <button class="rate-order-button" onclick="showRating()">⭐ Rate Order</button>
+            </div>
+        </div>
+
+        <!-- Spin Wheel View -->
+        <div id="spinWheelView" style="display: none;">
+            <div class="spin-wheel-container">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <h2>🎲 Restaurant Roulette</h2>
+                <p>Can't decide? Let us pick for you!</p>
+                <div class="wheel-container">
+                    <div class="spin-wheel" id="spinWheel">
+                        <div class="wheel-section">🌿</div>
+                        <div class="wheel-section">🍝</div>
+                        <div class="wheel-section">🌙</div>
+                        <div class="wheel-section">🫒</div>
+                        <div class="wheel-section">🥄</div>
+                        <div class="wheel-section">🥗</div>
+                        <div class="wheel-section">🌱</div>
+                        <div class="wheel-section">👨‍🍳</div>
+                    </div>
+                    <div class="wheel-pointer">📍</div>
+                </div>
+                <button class="spin-button" onclick="spinWheel()">🎯 SPIN!</button>
+                <div id="spinResult" class="spin-result"></div>
+            </div>
+        </div>
+
+        <!-- Profile View -->
+        <div id="profileView" style="display: none;">
+            <div class="profile-container">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="profile-header">
+                    <div class="profile-avatar">👤</div>
+                    <div class="profile-info">
+                        <h2>John Doe</h2>
+                        <p>📧 john.doe@email.com</p>
+                        <p>📱 (555) 987-6543</p>
+                    </div>
+                </div>
+                
+                <div class="profile-sections">
+                    <div class="profile-section">
+                        <h3>📍 Saved Addresses</h3>
+                        <div class="address-list">
+                            <div class="address-item">🏠 Home: 123 Main St, San Francisco, CA</div>
+                            <div class="address-item">🏢 Work: 456 Market St, San Francisco, CA</div>
+                            <button class="add-address-btn">+ Add New Address</button>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <h3>💳 Payment Methods</h3>
+                        <div class="payment-list">
+                            <div class="payment-item">💳 **** **** **** 1234 (Visa)</div>
+                            <div class="payment-item">💳 **** **** **** 5678 (Mastercard)</div>
+                            <div class="payment-item">📱 Apple Pay</div>
+                            <button class="add-payment-btn">+ Add Payment Method</button>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <h3>🍽️ Dietary Preferences</h3>
+                        <div class="preferences">
+                            <label><input type="checkbox" checked> 🌱 Vegetarian Options</label>
+                            <label><input type="checkbox"> 🚫 Gluten-Free</label>
+                            <label><input type="checkbox"> 🥛 Dairy-Free</label>
+                            <label><input type="checkbox"> 🌶️ Spicy Food</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Favorites View -->
+        <div id="favoritesView" style="display: none;">
+            <div class="favorites-container">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <h2>❤️ Your Favorites</h2>
+                <div class="favorites-grid" id="favoritesGrid">
+                    <!-- Favorites will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Order History View -->
+        <div id="orderHistoryView" style="display: none;">
+            <div class="order-history-container">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <h2>📋 Order History</h2>
+                <div class="order-history-list" id="orderHistoryList">
+                    <!-- Order history will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters View -->
+        <div id="filtersView" style="display: none;">
+            <div class="filters-container">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <h2>🔍 Filter Restaurants</h2>
+                
+                <div class="filter-section">
+                    <h3>🍽️ Cuisine Type</h3>
+                    <div class="filter-pills">
+                        <button class="filter-pill" onclick="filterByCuisine('all')">All</button>
+                        <button class="filter-pill" onclick="filterByCuisine('Mediterranean')">🌿 Mediterranean</button>
+                        <button class="filter-pill" onclick="filterByCuisine('Italian')">🍝 Italian</button>
+                        <button class="filter-pill" onclick="filterByCuisine('American')">🍔 American</button>
+                        <button class="filter-pill" onclick="filterByCuisine('Asian Fusion')">🥄 Asian</button>
+                        <button class="filter-pill" onclick="filterByCuisine('Healthy')">🥗 Healthy</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>💰 Price Range</h3>
+                    <div class="filter-pills">
+                        <button class="filter-pill" onclick="filterByPrice('all')">All Prices</button>
+                        <button class="filter-pill" onclick="filterByPrice('$')">$ Budget</button>
+                        <button class="filter-pill" onclick="filterByPrice('$$')">$$ Moderate</button>
+                        <button class="filter-pill" onclick="filterByPrice('$$$')">$$$ Premium</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>⭐ Rating</h3>
+                    <div class="filter-pills">
+                        <button class="filter-pill" onclick="filterByRating('all')">All Ratings</button>
+                        <button class="filter-pill" onclick="filterByRating('4.5')">4.5+ ⭐</button>
+                        <button class="filter-pill" onclick="filterByRating('4.0')">4.0+ ⭐</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>🚚 Delivery</h3>
+                    <div class="filter-pills">
+                        <button class="filter-pill" onclick="filterByDelivery('all')">All</button>
+                        <button class="filter-pill" onclick="filterByDelivery('free')">🆓 Free Delivery</button>
+                        <button class="filter-pill" onclick="filterByDelivery('fast')">⚡ Fast (< 30 min)</button>
+                    </div>
+                </div>
+                
+                <button class="apply-filters-btn" onclick="applyFilters()">Apply Filters</button>
+            </div>
+        </div>
+
+        <!-- Promo Codes View -->
+        <div id="promoCodesView" style="display: none;">
+            <div class="promo-container">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <h2>🎁 Promo Codes & Deals</h2>
+                
+                <div class="promo-input">
+                    <input type="text" placeholder="Enter promo code" id="promoInput">
+                    <button onclick="applyPromoCode()">Apply</button>
+                </div>
+                
+                <div class="available-promos">
+                    <div class="promo-card">
+                        <div class="promo-icon">🍕</div>
+                        <div class="promo-info">
+                            <h3>PIZZA20</h3>
+                            <p>20% off Italian restaurants</p>
+                            <small>Valid until Dec 31</small>
+                        </div>
+                        <button onclick="usePromo('PIZZA20')">Use Code</button>
+                    </div>
+                    
+                    <div class="promo-card">
+                        <div class="promo-icon">🚚</div>
+                        <div class="promo-info">
+                            <h3>FREEDEL</h3>
+                            <p>Free delivery on orders $25+</p>
+                            <small>Valid this week</small>
+                        </div>
+                        <button onclick="usePromo('FREEDEL')">Use Code</button>
+                    </div>
+                    
+                    <div class="promo-card">
+                        <div class="promo-icon">🎉</div>
+                        <div class="promo-info">
+                            <h3>NEWUSER</h3>
+                            <p>$10 off your first order</p>
+                            <small>New customers only</small>
+                        </div>
+                        <button onclick="usePromo('NEWUSER')">Use Code</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rating Modal -->
+        <div id="ratingModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3>⭐ Rate Your Order</h3>
+                <div class="rating-stars">
+                    <span class="star" onclick="setRating(1)">⭐</span>
+                    <span class="star" onclick="setRating(2)">⭐</span>
+                    <span class="star" onclick="setRating(3)">⭐</span>
+                    <span class="star" onclick="setRating(4)">⭐</span>
+                    <span class="star" onclick="setRating(5)">⭐</span>
+                </div>
+                <textarea placeholder="Leave a review (optional)..." id="reviewText"></textarea>
+                <div class="modal-buttons">
+                    <button onclick="submitRating()">Submit Rating</button>
+                    <button onclick="closeRating()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const restaurants = [
+            {
+                id: 1,
+                name: "The Garden Bistro",
+                cuisine: "Mediterranean",
+                rating: 4.8,
+                deliveryTime: "25-35 min",
+                deliveryFee: "Free",
+                emoji: "🌿"
+            },
+            {
+                id: 2,
+                name: "Sage & Thyme",
+                cuisine: "Italian",
+                rating: 4.6,
+                deliveryTime: "30-40 min",
+                deliveryFee: "$2.99",
+                emoji: "🍝"
+            },
+            {
+                id: 3,
+                name: "Harvest Moon",
+                cuisine: "American",
+                rating: 4.7,
+                deliveryTime: "20-30 min",
+                deliveryFee: "Free",
+                emoji: "🌙"
+            },
+            {
+                id: 4,
+                name: "Olive Branch",
+                cuisine: "Greek",
+                rating: 4.5,
+                deliveryTime: "35-45 min",
+                deliveryFee: "$1.99",
+                emoji: "🫒"
+            },
+            {
+                id: 5,
+                name: "Golden Spoon",
+                cuisine: "Asian Fusion",
+                rating: 4.9,
+                deliveryTime: "25-35 min",
+                deliveryFee: "Free",
+                emoji: "🥄"
+            },
+            {
+                id: 6,
+                name: "Fresh & Co",
+                cuisine: "Healthy",
+                rating: 4.4,
+                deliveryTime: "20-30 min",
+                deliveryFee: "$2.49",
+                emoji: "🥗"
+            },
+            {
+                id: 7,
+                name: "The Green Table",
+                cuisine: "Vegetarian",
+                rating: 4.6,
+                deliveryTime: "30-40 min",
+                deliveryFee: "Free",
+                emoji: "🌱"
+            },
+            {
+                id: 8,
+                name: "Artisan Kitchen",
+                cuisine: "French",
+                rating: 4.8,
+                deliveryTime: "40-50 min",
+                deliveryFee: "$3.99",
+                emoji: "👨‍🍳"
+            }
+        ];
+
+        function renderRestaurants(restaurantList = restaurants) {
+            const container = document.getElementById('listView');
+            container.innerHTML = restaurantList.map(restaurant => `
+                <div class="restaurant-card" onclick="selectRestaurant('${restaurant.name}')">
+                    <div class="restaurant-image">${restaurant.emoji}</div>
+                    <div class="restaurant-info">
+                        <div class="restaurant-name">${restaurant.name}</div>
+                        <div class="restaurant-cuisine">${restaurant.cuisine}</div>
+                        <div class="restaurant-details">
+                            <div class="rating">⭐ ${restaurant.rating}</div>
+                            <div class="delivery-time">${restaurant.deliveryTime}</div>
+                        </div>
+                        <div class="delivery-fee">${restaurant.deliveryFee}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMarkers(restaurantList = restaurants) {
+            const container = document.getElementById('markers');
+            container.innerHTML = restaurantList.map(restaurant => `
+                <div class="marker" onclick="selectRestaurant('${restaurant.name}')">
+                    <div class="marker-name">${restaurant.name}</div>
+                    <div class="marker-rating">⭐ ${restaurant.rating}</div>
+                </div>
+            `).join('');
+        }
+
+        function showListView() {
+            document.getElementById('listView').style.display = 'grid';
+            document.getElementById('mapView').style.display = 'none';
+            document.querySelectorAll('.toggle-button')[0].classList.add('active');
+            document.querySelectorAll('.toggle-button')[1].classList.remove('active');
+        }
+
+        function showMapView() {
+            document.getElementById('listView').style.display = 'none';
+            document.getElementById('mapView').style.display = 'block';
+            document.querySelectorAll('.toggle-button')[0].classList.remove('active');
+            document.querySelectorAll('.toggle-button')[1].classList.add('active');
+        }
+
+        let currentRestaurant = null;
+        let cart = [];
+        let currentView = 'restaurants';
+        let favorites = [1, 3, 5]; // Restaurant IDs
+        let orderHistory = [];
+        let currentFilters = { cuisine: 'all', price: 'all', rating: 'all', delivery: 'all' };
+        let isDarkMode = false;
+        let currentRating = 0;
+
+        function selectRestaurant(name) {
+            currentRestaurant = restaurants.find(r => r.name === name);
+            currentView = 'menu';
+            showRestaurantMenu();
+        }
+
+        function searchRestaurants() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = restaurants.filter(r => 
+                r.name.toLowerCase().includes(query) || 
+                r.cuisine.toLowerCase().includes(query)
+            );
+            renderRestaurants(filtered);
+            renderMarkers(filtered);
+        }
+
+        const menuItems = {
+            1: [ // The Garden Bistro
+                { id: 1, name: "Mediterranean Bowl", description: "Fresh quinoa, grilled vegetables, feta cheese", price: 16.99, emoji: "🥗" },
+                { id: 2, name: "Grilled Salmon", description: "Atlantic salmon with lemon herbs", price: 24.99, emoji: "🐟" },
+                { id: 3, name: "Lamb Kebabs", description: "Tender lamb with tzatziki sauce", price: 22.99, emoji: "🍢" }
+            ],
+            2: [ // Sage & Thyme
+                { id: 4, name: "Truffle Pasta", description: "Handmade pasta with truffle cream sauce", price: 19.99, emoji: "🍝" },
+                { id: 5, name: "Margherita Pizza", description: "Fresh mozzarella, basil, tomato sauce", price: 17.99, emoji: "🍕" },
+                { id: 6, name: "Tiramisu", description: "Classic Italian dessert", price: 8.99, emoji: "🍰" }
+            ],
+            3: [ // Harvest Moon
+                { id: 7, name: "BBQ Burger", description: "Angus beef with bacon and BBQ sauce", price: 15.99, emoji: "🍔" },
+                { id: 8, name: "Buffalo Wings", description: "Spicy wings with blue cheese dip", price: 12.99, emoji: "🍗" },
+                { id: 9, name: "Apple Pie", description: "Homemade with vanilla ice cream", price: 7.99, emoji: "🥧" }
+            ]
+        };
+
+        function showRestaurantMenu() {
+            hideAllViews();
+            document.getElementById('menuView').style.display = 'block';
+            
+            const restaurantInfo = document.getElementById('restaurantInfo');
+            restaurantInfo.innerHTML = `
+                <div class="restaurant-header">
+                    <h2>${currentRestaurant.emoji} ${currentRestaurant.name}</h2>
+                    <p>${currentRestaurant.cuisine} • ⭐ ${currentRestaurant.rating} • ${currentRestaurant.deliveryTime}</p>
+                </div>
+            `;
+            
+            const menuItemsContainer = document.getElementById('menuItems');
+            const items = menuItems[currentRestaurant.id] || menuItems[1]; // fallback to first restaurant's menu
+            
+            menuItemsContainer.innerHTML = items.map(item => `
+                <div class="menu-item">
+                    <div class="menu-item-info">
+                        <h4>${item.emoji} ${item.name}</h4>
+                        <p>${item.description}</p>
+                        <div class="menu-item-price">$${item.price}</div>
+                    </div>
+                    <button class="add-button" onclick="addToCart(${item.id}, '${item.name}', ${item.price}, '${item.emoji}')">Add +</button>
+                </div>
+            `).join('');
+            
+            updateCartDisplay();
+        }
+
+        function addToCart(id, name, price, emoji) {
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id, name, price, emoji, quantity: 1 });
+            }
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartSummary = document.getElementById('cartSummary');
+            const cartItems = document.getElementById('cartItems');
+            
+            if (cart.length === 0) {
+                cartSummary.style.display = 'none';
+                return;
+            }
+            
+            cartSummary.style.display = 'block';
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const deliveryFee = parseFloat(currentRestaurant.deliveryFee.replace('$', '')) || 0;
+            const total = subtotal + deliveryFee;
+            
+            cartItems.innerHTML = `
+                <h3>Your Order</h3>
+                ${cart.map(item => `
+                    <div class="cart-item">
+                        <span>${item.emoji} ${item.name} x${item.quantity}</span>
+                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `).join('')}
+                <div class="cart-item">
+                    <span>Delivery Fee</span>
+                    <span>${currentRestaurant.deliveryFee}</span>
+                </div>
+                <div class="cart-item" style="font-weight: 600; font-size: 18px;">
+                    <span>Total</span>
+                    <span>$${total.toFixed(2)}</span>
+                </div>
+            `;
+        }
+
+        function showCheckout() {
+            hideAllViews();
+            document.getElementById('checkoutView').style.display = 'block';
+            
+            const orderSummary = document.getElementById('orderSummary');
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const deliveryFee = parseFloat(currentRestaurant.deliveryFee.replace('$', '')) || 0;
+            const tax = subtotal * 0.0875;
+            const total = subtotal + deliveryFee + tax;
+            
+            document.getElementById('totalAmount').textContent = total.toFixed(2);
+            
+            orderSummary.innerHTML = `
+                <h3>Order Summary</h3>
+                <p><strong>${currentRestaurant.emoji} ${currentRestaurant.name}</strong></p>
+                ${cart.map(item => `
+                    <div class="cart-item">
+                        <span>${item.emoji} ${item.name} x${item.quantity}</span>
+                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `).join('')}
+                <div class="cart-item">
+                    <span>Subtotal</span>
+                    <span>$${subtotal.toFixed(2)}</span>
+                </div>
+                <div class="cart-item">
+                    <span>Delivery Fee</span>
+                    <span>${currentRestaurant.deliveryFee}</span>
+                </div>
+                <div class="cart-item">
+                    <span>Tax</span>
+                    <span>$${tax.toFixed(2)}</span>
+                </div>
+                <div class="cart-item" style="font-weight: 600; font-size: 18px; border-top: 2px solid #AFC8A6; padding-top: 12px;">
+                    <span>Total</span>
+                    <span>$${total.toFixed(2)}</span>
+                </div>
+            `;
+        }
+
+        function placeOrder() {
+            hideAllViews();
+            document.getElementById('confirmationView').style.display = 'block';
+            
+            const orderDetails = document.getElementById('orderDetails');
+            const orderNumber = Math.floor(Math.random() * 10000) + 1000;
+            const estimatedTime = Math.floor(Math.random() * 20) + 25;
+            
+            orderDetails.innerHTML = `
+                <h3>Order #${orderNumber}</h3>
+                <p><strong>Restaurant:</strong> ${currentRestaurant.emoji} ${currentRestaurant.name}</p>
+                <p><strong>Estimated Delivery:</strong> ${estimatedTime}-${estimatedTime + 10} minutes</p>
+                <p><strong>Items:</strong></p>
+                ${cart.map(item => `
+                    <div style="margin-left: 16px;">• ${item.emoji} ${item.name} x${item.quantity}</div>
+                `).join('')}
+            `;
+            
+            // Simulate order progress
+            setTimeout(() => {
+                const steps = document.querySelectorAll('.status-step');
+                steps[1].classList.add('active');
+            }, 2000);
+            
+            setTimeout(() => {
+                const steps = document.querySelectorAll('.status-step');
+                steps[2].classList.add('active');
+            }, 4000);
+        }
+
+        function goBack() {
+            hideAllViews();
+            document.getElementById('listView').style.display = 'grid';
+            currentView = 'restaurants';
+        }
+
+        function goToMenu() {
+            hideAllViews();
+            document.getElementById('menuView').style.display = 'block';
+            currentView = 'menu';
+        }
+
+        function startNewOrder() {
+            cart = [];
+            currentRestaurant = null;
+            hideAllViews();
+            document.getElementById('listView').style.display = 'grid';
+            currentView = 'restaurants';
+            
+            // Reset status steps
+            document.querySelectorAll('.status-step').forEach((step, index) => {
+                if (index === 0) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+
+        function hideAllViews() {
+            document.getElementById('listView').style.display = 'none';
+            document.getElementById('mapView').style.display = 'none';
+            document.getElementById('menuView').style.display = 'none';
+            document.getElementById('checkoutView').style.display = 'none';
+            document.getElementById('confirmationView').style.display = 'none';
+        }
+
+        // Navigation Functions
+        function showHome() {
+            hideAllViews();
+            document.getElementById('listView').style.display = 'grid';
+            updateNavButtons('home');
+            currentView = 'restaurants';
+        }
+
+        function showProfile() {
+            hideAllViews();
+            document.getElementById('profileView').style.display = 'block';
+            updateNavButtons('profile');
+            currentView = 'profile';
+        }
+
+        function showFavorites() {
+            hideAllViews();
+            document.getElementById('favoritesView').style.display = 'block';
+            updateNavButtons('favorites');
+            renderFavorites();
+            currentView = 'favorites';
+        }
+
+        function showOrderHistory() {
+            hideAllViews();
+            document.getElementById('orderHistoryView').style.display = 'block';
+            updateNavButtons('orders');
+            renderOrderHistory();
+            currentView = 'orders';
+        }
+
+        function updateNavButtons(active) {
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            const buttons = document.querySelectorAll('.nav-button');
+            const buttonMap = { home: 0, profile: 1, favorites: 2, orders: 3, dark: 4 };
+            if (buttons[buttonMap[active]]) {
+                buttons[buttonMap[active]].classList.add('active');
+            }
+        }
+
+        // Dark Mode
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            const btn = document.querySelectorAll('.nav-button')[4];
+            btn.textContent = isDarkMode ? '☀️ Light' : '🌙 Dark';
+        }
+
+        // Spin Wheel Functions
+        function showSpinWheel() {
+            hideAllViews();
+            document.getElementById('spinWheelView').style.display = 'block';
+            currentView = 'spinWheel';
+        }
+
+        function spinWheel() {
+            const wheel = document.getElementById('spinWheel');
+            const randomRotation = Math.floor(Math.random() * 360) + 1440; // At least 4 full rotations
+            wheel.style.transform = `rotate(${randomRotation}deg)`;
+            
+            setTimeout(() => {
+                const selectedIndex = Math.floor((randomRotation % 360) / 45);
+                const selectedRestaurant = restaurants[selectedIndex % restaurants.length];
+                document.getElementById('spinResult').innerHTML = `
+                    <h3>🎉 You got: ${selectedRestaurant.emoji} ${selectedRestaurant.name}!</h3>
+                    <p>${selectedRestaurant.cuisine} • ⭐ ${selectedRestaurant.rating}</p>
+                    <button onclick="selectRestaurant('${selectedRestaurant.name}')" class="spin-button">
+                        Order from ${selectedRestaurant.name}
+                    </button>
+                `;
+            }, 3000);
+        }
+
+        // Trending Restaurants
+        function showTrending() {
+            const trendingRestaurants = restaurants.filter(r => r.rating >= 4.7);
+            renderRestaurants(trendingRestaurants);
+            alert('🔥 Showing trending restaurants with 4.7+ ratings!');
+        }
+
+        // Filters
+        function showFilters() {
+            hideAllViews();
+            document.getElementById('filtersView').style.display = 'block';
+            currentView = 'filters';
+        }
+
+        function filterByCuisine(cuisine) {
+            currentFilters.cuisine = cuisine;
+            updateFilterPills();
+        }
+
+        function filterByPrice(price) {
+            currentFilters.price = price;
+            updateFilterPills();
+        }
+
+        function filterByRating(rating) {
+            currentFilters.rating = rating;
+            updateFilterPills();
+        }
+
+        function filterByDelivery(delivery) {
+            currentFilters.delivery = delivery;
+            updateFilterPills();
+        }
+
+        function updateFilterPills() {
+            document.querySelectorAll('.filter-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+        }
+
+        function applyFilters() {
+            let filtered = restaurants;
+            
+            if (currentFilters.cuisine !== 'all') {
+                filtered = filtered.filter(r => r.cuisine === currentFilters.cuisine);
+            }
+            
+            if (currentFilters.rating !== 'all') {
+                const minRating = parseFloat(currentFilters.rating);
+                filtered = filtered.filter(r => r.rating >= minRating);
+            }
+            
+            if (currentFilters.delivery === 'free') {
+                filtered = filtered.filter(r => r.deliveryFee === 'Free');
+            }
+            
+            if (currentFilters.delivery === 'fast') {
+                filtered = filtered.filter(r => parseInt(r.deliveryTime) < 30);
+            }
+            
+            showHome();
+            renderRestaurants(filtered);
+            alert(`🔍 Found ${filtered.length} restaurants matching your filters!`);
+        }
+
+        // Promo Codes
+        function showPromoCodes() {
+            hideAllViews();
+            document.getElementById('promoCodesView').style.display = 'block';
+            currentView = 'promos';
+        }
+
+        function applyPromoCode() {
+            const code = document.getElementById('promoInput').value.toUpperCase();
+            const validCodes = ['PIZZA20', 'FREEDEL', 'NEWUSER'];
+            
+            if (validCodes.includes(code)) {
+                alert(`🎉 Promo code ${code} applied successfully!`);
+                document.getElementById('promoInput').value = '';
+            } else {
+                alert('❌ Invalid promo code. Please try again.');
+            }
+        }
+
+        function usePromo(code) {
+            alert(`🎁 Promo code ${code} copied to clipboard!`);
+            navigator.clipboard.writeText(code);
+        }
+
+        // Favorites Functions
+        function toggleFavorite(restaurantId) {
+            const index = favorites.indexOf(restaurantId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                alert('💔 Removed from favorites');
+            } else {
+                favorites.push(restaurantId);
+                alert('❤️ Added to favorites!');
+            }
+            renderFavorites();
+        }
+
+        function renderFavorites() {
+            const container = document.getElementById('favoritesGrid');
+            const favoriteRestaurants = restaurants.filter(r => favorites.includes(r.id));
+            
+            if (favoriteRestaurants.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #6B6B6B;">
+                        <h3>💔 No favorites yet</h3>
+                        <p>Start adding restaurants to your favorites!</p>
+                        <button onclick="showHome()" class="checkout-button">Browse Restaurants</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = favoriteRestaurants.map(restaurant => `
+                <div class="restaurant-card" onclick="selectRestaurant('${restaurant.name}')">
+                    <div class="restaurant-image">${restaurant.emoji}</div>
+                    <div class="restaurant-info">
+                        <div class="restaurant-name">${restaurant.name}</div>
+                        <div class="restaurant-cuisine">${restaurant.cuisine}</div>
+                        <div class="restaurant-details">
+                            <div class="rating">⭐ ${restaurant.rating}</div>
+                            <div class="delivery-time">${restaurant.deliveryTime}</div>
+                        </div>
+                        <div class="delivery-fee">${restaurant.deliveryFee}</div>
+                        <button onclick="event.stopPropagation(); toggleFavorite(${restaurant.id})" 
+                                style="background: #E8A5A5; color: white; border: none; padding: 8px 12px; border-radius: 8px; margin-top: 8px;">
+                            💔 Remove
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Order History
+        function renderOrderHistory() {
+            const container = document.getElementById('orderHistoryList');
+            
+            // Generate some sample order history
+            if (orderHistory.length === 0) {
+                orderHistory = [
+                    {
+                        id: '#12345',
+                        restaurant: 'The Garden Bistro',
+                        date: '2024-12-09',
+                        total: '$32.45',
+                        status: 'delivered',
+                        items: ['Mediterranean Bowl', 'Grilled Salmon']
+                    },
+                    {
+                        id: '#12344',
+                        restaurant: 'Sage & Thyme',
+                        date: '2024-12-07',
+                        total: '$28.99',
+                        status: 'delivered',
+                        items: ['Truffle Pasta', 'Tiramisu']
+                    },
+                    {
+                        id: '#12343',
+                        restaurant: 'Golden Spoon',
+                        date: '2024-12-05',
+                        total: '$19.99',
+                        status: 'preparing',
+                        items: ['Asian Fusion Bowl']
+                    }
+                ];
+            }
+            
+            container.innerHTML = orderHistory.map(order => `
+                <div class="order-item">
+                    <div class="order-header">
+                        <div>
+                            <h4>${order.restaurant}</h4>
+                            <p>Order ${order.id} • ${order.date}</p>
+                        </div>
+                        <div class="order-status ${order.status}">${order.status.toUpperCase()}</div>
+                    </div>
+                    <div class="order-details">
+                        <p><strong>Items:</strong> ${order.items.join(', ')}</p>
+                        <p><strong>Total:</strong> ${order.total}</p>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <button onclick="reorderItems('${order.restaurant}')" class="add-button">🔄 Reorder</button>
+                        ${order.status === 'delivered' ? 
+                            `<button onclick="showRating()" class="add-button" style="margin-left: 8px;">⭐ Rate</button>` : 
+                            ''
+                        }
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function reorderItems(restaurantName) {
+            const restaurant = restaurants.find(r => r.name === restaurantName);
+            if (restaurant) {
+                selectRestaurant(restaurantName);
+                alert(`🔄 Reordering from ${restaurantName}!`);
+            }
+        }
+
+        // Rating System
+        function showRating() {
+            document.getElementById('ratingModal').style.display = 'flex';
+        }
+
+        function closeRating() {
+            document.getElementById('ratingModal').style.display = 'none';
+            currentRating = 0;
+            updateStarDisplay();
+        }
+
+        function setRating(rating) {
+            currentRating = rating;
+            updateStarDisplay();
+        }
+
+        function updateStarDisplay() {
+            document.querySelectorAll('.star').forEach((star, index) => {
+                star.classList.toggle('selected', index < currentRating);
+            });
+        }
+
+        function submitRating() {
+            if (currentRating === 0) {
+                alert('Please select a rating!');
+                return;
+            }
+            
+            const review = document.getElementById('reviewText').value;
+            alert(`⭐ Thank you for your ${currentRating}-star rating!${review ? ' Your review has been submitted.' : ''}`);
+            closeRating();
+        }
+
+        // Enhanced Restaurant Cards with Favorites
+        function renderRestaurants(restaurantList = restaurants) {
+            const container = document.getElementById('listView');
+            container.innerHTML = restaurantList.map(restaurant => `
+                <div class="restaurant-card" onclick="selectRestaurant('${restaurant.name}')">
+                    <div class="restaurant-image">${restaurant.emoji}</div>
+                    <div class="restaurant-info">
+                        <div class="restaurant-name">${restaurant.name}</div>
+                        <div class="restaurant-cuisine">${restaurant.cuisine}</div>
+                        <div class="restaurant-details">
+                            <div class="rating">⭐ ${restaurant.rating}</div>
+                            <div class="delivery-time">${restaurant.deliveryTime}</div>
+                        </div>
+                        <div class="delivery-fee">${restaurant.deliveryFee}</div>
+                        <button onclick="event.stopPropagation(); toggleFavorite(${restaurant.id})" 
+                                style="background: ${favorites.includes(restaurant.id) ? '#E8A5A5' : '#AFC8A6'}; 
+                                       color: white; border: none; padding: 8px 12px; border-radius: 8px; margin-top: 8px;">
+                            ${favorites.includes(restaurant.id) ? '💔' : '❤️'} ${favorites.includes(restaurant.id) ? 'Remove' : 'Favorite'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderRestaurants();
+            renderMarkers();
+            
+            document.getElementById('searchInput').addEventListener('input', searchRestaurants);
+        });
+    </script>
+</body>
+</html>
