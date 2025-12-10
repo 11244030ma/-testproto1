@@ -1277,6 +1277,91 @@
             transform: scale(1.1);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
+
+        /* Auth Modal Styles */
+        .auth-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .auth-input:focus {
+            border-color: #1a1a1a;
+        }
+        
+        .auth-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-btn.primary {
+            background: #1a1a1a;
+            color: white;
+        }
+        
+        .auth-btn.primary:hover {
+            background: #333;
+        }
+        
+        .auth-btn.secondary {
+            background: #f5f5f5;
+            color: #1a1a1a;
+        }
+        
+        .auth-btn.secondary:hover {
+            background: #e8e8e8;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        .logout-btn {
+            background: #f5f5f5;
+            color: #666;
+            border: 1px solid #e8e8e8;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .logout-btn:hover {
+            background: #e8e8e8;
+            color: #1a1a1a;
+        }
     </style>
 </head>
 <body>
@@ -1326,11 +1411,8 @@
         </div>
         
         <!-- Minimal Navigation -->
-        <div class="main-nav">
-            <button class="nav-button active" onclick="showHome()">Home</button>
-            <button class="nav-button" onclick="showFavorites()">Favorites</button>
-            <button class="nav-button" onclick="showOrderHistory()">Orders</button>
-            <button class="nav-button" onclick="showProfile()">Profile</button>
+        <div class="main-nav" id="mainNav">
+            <!-- Navigation will be populated by JavaScript based on auth state -->
         </div>
         
         <div id="listView" class="restaurants-grid">
@@ -1542,6 +1624,11 @@
                             <label><input type="checkbox"> 🌶️ Spicy Food</label>
                         </div>
                     </div>
+                    
+                    <div class="profile-section">
+                        <h3>⚙️ Account</h3>
+                        <button onclick="logout()" class="logout-btn">Sign Out</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1682,6 +1769,36 @@
                 <div class="modal-buttons">
                     <button onclick="submitRating()">Submit Rating</button>
                     <button onclick="closeRating()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login/Signup Modal -->
+        <div id="authModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div id="loginForm">
+                    <h3>Welcome Back</h3>
+                    <p style="color: #666; margin-bottom: 24px;">Sign in to access your favorites and orders</p>
+                    <input type="email" placeholder="Email" class="auth-input" id="loginEmail">
+                    <input type="password" placeholder="Password" class="auth-input" id="loginPassword">
+                    <div class="modal-buttons">
+                        <button onclick="login()" class="auth-btn primary">Sign In</button>
+                        <button onclick="showSignup()" class="auth-btn secondary">Create Account</button>
+                    </div>
+                    <button onclick="closeAuth()" class="close-btn">×</button>
+                </div>
+                
+                <div id="signupForm" style="display: none;">
+                    <h3>Create Account</h3>
+                    <p style="color: #666; margin-bottom: 24px;">Join us to save favorites and track orders</p>
+                    <input type="text" placeholder="Full Name" class="auth-input" id="signupName">
+                    <input type="email" placeholder="Email" class="auth-input" id="signupEmail">
+                    <input type="password" placeholder="Password" class="auth-input" id="signupPassword">
+                    <div class="modal-buttons">
+                        <button onclick="signup()" class="auth-btn primary">Create Account</button>
+                        <button onclick="showLogin()" class="auth-btn secondary">Sign In Instead</button>
+                    </div>
+                    <button onclick="closeAuth()" class="close-btn">×</button>
                 </div>
             </div>
         </div>
@@ -2091,6 +2208,14 @@
         }
 
         function showCheckout() {
+            if (!isLoggedIn) {
+                // Show guest checkout option
+                if (confirm('Sign in to save your order history and preferences, or continue as guest?')) {
+                    showAuth();
+                    return;
+                }
+                // Continue as guest
+            }
             hideAllViews();
             document.getElementById('checkoutView').style.display = 'block';
             
@@ -2226,13 +2351,33 @@
         }
 
         function showProfile() {
+            if (!isLoggedIn) {
+                showAuth();
+                return;
+            }
             hideAllViews();
             document.getElementById('profileView').style.display = 'block';
             updateNavButtons('profile');
+            renderProfile();
             currentView = 'profile';
         }
 
+        function renderProfile() {
+            if (!currentUser) return;
+            
+            // Update profile with current user data
+            const profileInfo = document.querySelector('.profile-info h2');
+            const profileEmail = document.querySelector('.profile-info p');
+            
+            if (profileInfo) profileInfo.textContent = currentUser.name;
+            if (profileEmail) profileEmail.textContent = `📧 ${currentUser.email}`;
+        }
+
         function showFavorites() {
+            if (!isLoggedIn) {
+                showAuth();
+                return;
+            }
             hideAllViews();
             document.getElementById('favoritesView').style.display = 'block';
             updateNavButtons('favorites');
@@ -2241,6 +2386,10 @@
         }
 
         function showOrderHistory() {
+            if (!isLoggedIn) {
+                showAuth();
+                return;
+            }
             hideAllViews();
             document.getElementById('orderHistoryView').style.display = 'block';
             updateNavButtons('orders');
@@ -2251,9 +2400,17 @@
         function updateNavButtons(active) {
             document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
             const buttons = document.querySelectorAll('.nav-button');
-            const buttonMap = { home: 0, profile: 1, favorites: 2, orders: 3, dark: 4 };
-            if (buttons[buttonMap[active]]) {
-                buttons[buttonMap[active]].classList.add('active');
+            
+            if (isLoggedIn) {
+                const buttonMap = { home: 0, favorites: 1, orders: 2, profile: 3 };
+                if (buttons[buttonMap[active]]) {
+                    buttons[buttonMap[active]].classList.add('active');
+                }
+            } else {
+                const buttonMap = { home: 0, auth: 1 };
+                if (buttons[buttonMap[active]]) {
+                    buttons[buttonMap[active]].classList.add('active');
+                }
             }
         }
 
@@ -2296,6 +2453,8 @@
         }
 
         let currentWheelRotation = 0; // Track current rotation
+        let isLoggedIn = false; // Authentication state
+        let currentUser = null;
         
         function spinWheel() {
             const wheel = document.getElementById('spinWheel');
@@ -2500,6 +2659,13 @@
 
         // Favorites Functions
         function toggleFavorite(restaurantId) {
+            if (!isLoggedIn) {
+                if (confirm('Sign in to save favorites?')) {
+                    showAuth();
+                }
+                return;
+            }
+            
             const index = favorites.indexOf(restaurantId);
             if (index > -1) {
                 favorites.splice(index, 1);
@@ -2509,6 +2675,7 @@
                 alert('❤️ Added to favorites!');
             }
             renderFavorites();
+            renderRestaurants(); // Re-render to update favorite buttons
         }
 
         function renderFavorites() {
@@ -2952,14 +3119,91 @@
             }
         });
 
+        // Authentication Functions
+        function renderNavigation() {
+            const nav = document.getElementById('mainNav');
+            
+            if (isLoggedIn) {
+                nav.innerHTML = `
+                    <button class="nav-button active" onclick="showHome()">Home</button>
+                    <button class="nav-button" onclick="showFavorites()">Favorites</button>
+                    <button class="nav-button" onclick="showOrderHistory()">Orders</button>
+                    <button class="nav-button" onclick="showProfile()">Profile</button>
+                `;
+            } else {
+                nav.innerHTML = `
+                    <button class="nav-button active" onclick="showHome()">Browse</button>
+                    <button class="nav-button" onclick="showAuth()">Sign In</button>
+                `;
+            }
+        }
+
+        function showAuth() {
+            document.getElementById('authModal').style.display = 'flex';
+            showLogin();
+        }
+
+        function closeAuth() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+        }
+
+        function showSignup() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'block';
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (email && password) {
+                // Simulate login
+                isLoggedIn = true;
+                currentUser = { name: 'John Doe', email: email };
+                renderNavigation();
+                closeAuth();
+                alert('Welcome back! You are now signed in.');
+            } else {
+                alert('Please enter your email and password.');
+            }
+        }
+
+        function signup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            if (name && email && password) {
+                // Simulate signup
+                isLoggedIn = true;
+                currentUser = { name: name, email: email };
+                renderNavigation();
+                closeAuth();
+                alert(`Welcome ${name}! Your account has been created.`);
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            renderNavigation();
+            showHome();
+            alert('You have been signed out.');
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            // Show homepage by default
-            document.getElementById('homepageView').style.display = 'block';
-            hideAllViews();
-            hideAllDashboards();
+            // Render navigation based on auth state
+            renderNavigation();
             
-            // Initialize customer app data (hidden)
+            // Initialize app data
             renderRestaurants();
             renderMarkers();
             
