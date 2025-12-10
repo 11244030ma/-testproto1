@@ -3,5 +3,11 @@
   "outputDirectory": "dist",
   "devCommand": "npm run web",
   "framework": null,
-  "installCommand": "npm install --legacy-peer-deps"
+  "installCommand": "npm install --legacy-peer-deps",
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/web-preview.html"
+    }
+  ]
 }
