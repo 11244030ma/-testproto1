@@ -570,34 +570,20 @@
             width: 300px;
             height: 300px;
             border-radius: 50%;
-            border: 8px solid #AFC8A6;
-            display: flex;
-            flex-wrap: wrap;
-            position: relative;
+            border: 4px solid #AFC8A6;
             transition: transform 3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        .wheel-section {
-            width: 50%;
-            height: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            background: linear-gradient(45deg, #F7F5F0, #AFC8A6);
-        }
-        
-        .wheel-section:nth-child(odd) {
-            background: linear-gradient(45deg, #AFC8A6, #9BB896);
+            box-shadow: 0 8px 24px rgba(175, 200, 166, 0.3);
         }
         
         .wheel-pointer {
             position: absolute;
-            top: -10px;
+            top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 24px;
+            font-size: 32px;
             z-index: 10;
+            color: #AFC8A6;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
         
         .spin-button {
@@ -613,9 +599,15 @@
             margin-top: 20px;
         }
         
-        .spin-button:hover {
+        .spin-button:hover:not(:disabled) {
             transform: scale(0.96);
             box-shadow: 0 8px 16px rgba(175, 200, 166, 0.4);
+        }
+        
+        .spin-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
         
         .spin-result {
@@ -1169,17 +1161,42 @@
                 <h2>🎲 Restaurant Roulette</h2>
                 <p>Can't decide? Let us pick for you!</p>
                 <div class="wheel-container">
-                    <div class="spin-wheel" id="spinWheel">
-                        <div class="wheel-section">🌿</div>
-                        <div class="wheel-section">🍝</div>
-                        <div class="wheel-section">🌙</div>
-                        <div class="wheel-section">🫒</div>
-                        <div class="wheel-section">🥄</div>
-                        <div class="wheel-section">🥗</div>
-                        <div class="wheel-section">🌱</div>
-                        <div class="wheel-section">👨‍🍳</div>
-                    </div>
-                    <div class="wheel-pointer">📍</div>
+                    <svg class="spin-wheel" id="spinWheel" width="300" height="300" viewBox="0 0 300 300">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#AFC8A6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#9BB896;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#F7F5F0;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#AFC8A6;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Wheel sections -->
+                        <path d="M 150,150 L 150,0 A 150,150 0 0,1 256.066,43.934 Z" fill="url(#grad1)" stroke="#fff" stroke-width="2"/>
+                        <path d="M 150,150 L 256.066,43.934 A 150,150 0 0,1 300,150 Z" fill="url(#grad2)" stroke="#fff" stroke-width="2"/>
+                        <path d="M 150,150 L 300,150 A 150,150 0 0,1 256.066,256.066 Z" fill="url(#grad1)" stroke="#fff" stroke-width="2"/>
+                        <path d="M 150,150 L 256.066,256.066 A 150,150 0 0,1 150,300 Z" fill="url(#grad2)" stroke="#fff" stroke-width="2"/>
+                        <path d="M 150,150 L 150,300 A 150,150 0 0,1 43.934,256.066 Z" fill="url(#grad1)" stroke="#fff" stroke-width="2"/>
+                        <path d="M 150,150 L 43.934,256.066 A 150,150 0 0,1 0,150 Z" fill="url(#grad2)" stroke="#fff" stroke-width="2"/>
+                        <path d="M 150,150 L 0,150 A 150,150 0 0,1 43.934,43.934 Z" fill="url(#grad1)" stroke="#fff" stroke-width="2"/>
+                        <path d="M 150,150 L 43.934,43.934 A 150,150 0 0,1 150,0 Z" fill="url(#grad2)" stroke="#fff" stroke-width="2"/>
+                        
+                        <!-- Restaurant emojis -->
+                        <text x="150" y="40" text-anchor="middle" font-size="24" fill="white">🌿</text>
+                        <text x="235" y="80" text-anchor="middle" font-size="24" fill="white">🍝</text>
+                        <text x="270" y="160" text-anchor="middle" font-size="24" fill="white">🌙</text>
+                        <text x="235" y="235" text-anchor="middle" font-size="24" fill="white">🫒</text>
+                        <text x="150" y="270" text-anchor="middle" font-size="24" fill="white">🥄</text>
+                        <text x="65" y="235" text-anchor="middle" font-size="24" fill="white">🥗</text>
+                        <text x="30" y="160" text-anchor="middle" font-size="24" fill="white">🌱</text>
+                        <text x="65" y="80" text-anchor="middle" font-size="24" fill="white">👨‍🍳</text>
+                        
+                        <!-- Center circle -->
+                        <circle cx="150" cy="150" r="20" fill="#AFC8A6" stroke="#fff" stroke-width="3"/>
+                    </svg>
+                    <div class="wheel-pointer">🔻</div>
                 </div>
                 <button class="spin-button" onclick="spinWheel()">🎯 SPIN!</button>
                 <div id="spinResult" class="spin-result"></div>
@@ -1581,7 +1598,8 @@
             cartSummary.style.display = 'block';
             
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const deliveryFee = parseFloat(currentRestaurant.deliveryFee.replace('$', '')) || 0;
+            const deliveryFeeText = currentRestaurant.deliveryFee;
+            const deliveryFee = deliveryFeeText === 'Free' ? 0 : parseFloat(deliveryFeeText.replace('$', '')) || 0;
             const total = subtotal + deliveryFee;
             
             cartItems.innerHTML = `
@@ -1609,7 +1627,8 @@
             
             const orderSummary = document.getElementById('orderSummary');
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const deliveryFee = parseFloat(currentRestaurant.deliveryFee.replace('$', '')) || 0;
+            const deliveryFeeText = currentRestaurant.deliveryFee;
+            const deliveryFee = deliveryFeeText === 'Free' ? 0 : parseFloat(deliveryFeeText.replace('$', '')) || 0;
             const tax = subtotal * 0.0875;
             const total = subtotal + deliveryFee + tax;
             
@@ -1708,14 +1727,25 @@
             document.getElementById('menuView').style.display = 'none';
             document.getElementById('checkoutView').style.display = 'none';
             document.getElementById('confirmationView').style.display = 'none';
+            document.getElementById('spinWheelView').style.display = 'none';
+            document.getElementById('profileView').style.display = 'none';
+            document.getElementById('favoritesView').style.display = 'none';
+            document.getElementById('orderHistoryView').style.display = 'none';
+            document.getElementById('filtersView').style.display = 'none';
+            document.getElementById('promoCodesView').style.display = 'none';
         }
 
         // Navigation Functions
         function showHome() {
             hideAllViews();
             document.getElementById('listView').style.display = 'grid';
+            document.getElementById('mapView').style.display = 'none';
             updateNavButtons('home');
             currentView = 'restaurants';
+            
+            // Reset view toggle buttons
+            document.querySelectorAll('.toggle-button')[0].classList.add('active');
+            document.querySelectorAll('.toggle-button')[1].classList.remove('active');
         }
 
         function showProfile() {
@@ -1770,6 +1800,11 @@
             const randomRotation = Math.floor(Math.random() * 360) + 1440; // At least 4 full rotations
             wheel.style.transform = `rotate(${randomRotation}deg)`;
             
+            // Disable spin button during animation
+            const spinButton = document.querySelector('.spin-button');
+            spinButton.disabled = true;
+            spinButton.textContent = '🎯 SPINNING...';
+            
             setTimeout(() => {
                 const selectedIndex = Math.floor((randomRotation % 360) / 45);
                 const selectedRestaurant = restaurants[selectedIndex % restaurants.length];
@@ -1777,9 +1812,13 @@
                     <h3>🎉 You got: ${selectedRestaurant.emoji} ${selectedRestaurant.name}!</h3>
                     <p>${selectedRestaurant.cuisine} • ⭐ ${selectedRestaurant.rating}</p>
                     <button onclick="selectRestaurant('${selectedRestaurant.name}')" class="spin-button">
-                        Order from ${selectedRestaurant.name}
+                        🍽️ Order from ${selectedRestaurant.name}
                     </button>
                 `;
+                
+                // Re-enable spin button
+                spinButton.disabled = false;
+                spinButton.textContent = '🎯 SPIN AGAIN!';
             }, 3000);
         }
 
