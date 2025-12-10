@@ -1183,15 +1183,30 @@
                         <path d="M 150,150 L 0,150 A 150,150 0 0,1 43.934,43.934 Z" fill="url(#grad1)" stroke="#fff" stroke-width="2"/>
                         <path d="M 150,150 L 43.934,43.934 A 150,150 0 0,1 150,0 Z" fill="url(#grad2)" stroke="#fff" stroke-width="2"/>
                         
-                        <!-- Restaurant emojis -->
-                        <text x="150" y="40" text-anchor="middle" font-size="24" fill="white">🌿</text>
-                        <text x="235" y="80" text-anchor="middle" font-size="24" fill="white">🍝</text>
-                        <text x="270" y="160" text-anchor="middle" font-size="24" fill="white">🌙</text>
-                        <text x="235" y="235" text-anchor="middle" font-size="24" fill="white">🫒</text>
-                        <text x="150" y="270" text-anchor="middle" font-size="24" fill="white">🥄</text>
-                        <text x="65" y="235" text-anchor="middle" font-size="24" fill="white">🥗</text>
-                        <text x="30" y="160" text-anchor="middle" font-size="24" fill="white">🌱</text>
-                        <text x="65" y="80" text-anchor="middle" font-size="24" fill="white">👨‍🍳</text>
+                        <!-- Restaurant names -->
+                        <text x="150" y="35" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Garden</text>
+                        <text x="150" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Bistro</text>
+                        
+                        <text x="235" y="75" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Sage &</text>
+                        <text x="235" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Thyme</text>
+                        
+                        <text x="270" y="155" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Harvest</text>
+                        <text x="270" y="168" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Moon</text>
+                        
+                        <text x="235" y="230" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Olive</text>
+                        <text x="235" y="243" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Branch</text>
+                        
+                        <text x="150" y="265" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Golden</text>
+                        <text x="150" y="278" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Spoon</text>
+                        
+                        <text x="65" y="230" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Fresh &</text>
+                        <text x="65" y="243" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Co</text>
+                        
+                        <text x="30" y="155" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Green</text>
+                        <text x="30" y="168" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Table</text>
+                        
+                        <text x="65" y="75" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Artisan</text>
+                        <text x="65" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Kitchen</text>
                         
                         <!-- Center circle -->
                         <circle cx="150" cy="150" r="20" fill="#AFC8A6" stroke="#fff" stroke-width="3"/>
@@ -1280,22 +1295,25 @@
                 <div class="filter-section">
                     <h3>🍽️ Cuisine Type</h3>
                     <div class="filter-pills">
-                        <button class="filter-pill" onclick="filterByCuisine('all')">All</button>
+                        <button class="filter-pill active" onclick="filterByCuisine('all')">All</button>
                         <button class="filter-pill" onclick="filterByCuisine('Mediterranean')">🌿 Mediterranean</button>
                         <button class="filter-pill" onclick="filterByCuisine('Italian')">🍝 Italian</button>
                         <button class="filter-pill" onclick="filterByCuisine('American')">🍔 American</button>
                         <button class="filter-pill" onclick="filterByCuisine('Asian Fusion')">🥄 Asian</button>
                         <button class="filter-pill" onclick="filterByCuisine('Healthy')">🥗 Healthy</button>
+                        <button class="filter-pill" onclick="filterByCuisine('Greek')">🫒 Greek</button>
+                        <button class="filter-pill" onclick="filterByCuisine('Vegetarian')">🌱 Vegetarian</button>
+                        <button class="filter-pill" onclick="filterByCuisine('French')">👨‍🍳 French</button>
                     </div>
                 </div>
                 
                 <div class="filter-section">
                     <h3>💰 Price Range</h3>
                     <div class="filter-pills">
-                        <button class="filter-pill" onclick="filterByPrice('all')">All Prices</button>
-                        <button class="filter-pill" onclick="filterByPrice('$')">$ Budget</button>
-                        <button class="filter-pill" onclick="filterByPrice('$$')">$$ Moderate</button>
-                        <button class="filter-pill" onclick="filterByPrice('$$$')">$$$ Premium</button>
+                        <button class="filter-pill active" onclick="filterByPrice('all')">All Prices</button>
+                        <button class="filter-pill" onclick="filterByPrice('budget')">💰 Budget ($10-15)</button>
+                        <button class="filter-pill" onclick="filterByPrice('moderate')">💳 Moderate ($15-25)</button>
+                        <button class="filter-pill" onclick="filterByPrice('premium')">💎 Premium ($25+)</button>
                     </div>
                 </div>
                 
@@ -1318,6 +1336,7 @@
                 </div>
                 
                 <button class="apply-filters-btn" onclick="applyFilters()">Apply Filters</button>
+                <button class="apply-filters-btn" onclick="clearFilters()" style="background: #E8A5A5; margin-top: 12px;">Clear All Filters</button>
             </div>
         </div>
 
@@ -1857,8 +1876,47 @@
         }
 
         function updateFilterPills() {
+            // Remove active class from all pills
             document.querySelectorAll('.filter-pill').forEach(pill => {
                 pill.classList.remove('active');
+            });
+            
+            // Add active class to selected pills based on current filters
+            document.querySelectorAll('.filter-pill').forEach(pill => {
+                const onclick = pill.getAttribute('onclick');
+                if (!onclick) return;
+                
+                // Check cuisine filters
+                if (onclick.includes('filterByCuisine')) {
+                    const cuisine = onclick.match(/filterByCuisine\('([^']+)'\)/)?.[1];
+                    if (cuisine === currentFilters.cuisine) {
+                        pill.classList.add('active');
+                    }
+                }
+                
+                // Check price filters
+                if (onclick.includes('filterByPrice')) {
+                    const price = onclick.match(/filterByPrice\('([^']+)'\)/)?.[1];
+                    if (price === currentFilters.price) {
+                        pill.classList.add('active');
+                    }
+                }
+                
+                // Check rating filters
+                if (onclick.includes('filterByRating')) {
+                    const rating = onclick.match(/filterByRating\('([^']+)'\)/)?.[1];
+                    if (rating === currentFilters.rating) {
+                        pill.classList.add('active');
+                    }
+                }
+                
+                // Check delivery filters
+                if (onclick.includes('filterByDelivery')) {
+                    const delivery = onclick.match(/filterByDelivery\('([^']+)'\)/)?.[1];
+                    if (delivery === currentFilters.delivery) {
+                        pill.classList.add('active');
+                    }
+                }
             });
         }
 
@@ -1867,6 +1925,17 @@
             
             if (currentFilters.cuisine !== 'all') {
                 filtered = filtered.filter(r => r.cuisine === currentFilters.cuisine);
+            }
+            
+            if (currentFilters.price !== 'all') {
+                // Add price ranges to restaurant data for filtering
+                filtered = filtered.filter(r => {
+                    const avgPrice = getAveragePrice(r.id);
+                    if (currentFilters.price === 'budget') return avgPrice <= 15;
+                    if (currentFilters.price === 'moderate') return avgPrice > 15 && avgPrice <= 25;
+                    if (currentFilters.price === 'premium') return avgPrice > 25;
+                    return true;
+                });
             }
             
             if (currentFilters.rating !== 'all') {
@@ -1882,9 +1951,29 @@
                 filtered = filtered.filter(r => parseInt(r.deliveryTime) < 30);
             }
             
+            // Store filtered results globally so other functions can use them
+            window.currentFilteredRestaurants = filtered;
+            
             showHome();
             renderRestaurants(filtered);
+            renderMarkers(filtered);
             alert(`🔍 Found ${filtered.length} restaurants matching your filters!`);
+        }
+        
+        function getAveragePrice(restaurantId) {
+            const items = menuItems[restaurantId] || menuItems[1];
+            const total = items.reduce((sum, item) => sum + item.price, 0);
+            return total / items.length;
+        }
+
+        function clearFilters() {
+            currentFilters = { cuisine: 'all', price: 'all', rating: 'all', delivery: 'all' };
+            window.currentFilteredRestaurants = restaurants;
+            updateFilterPills();
+            showHome();
+            renderRestaurants(restaurants);
+            renderMarkers(restaurants);
+            alert('🔄 All filters cleared!');
         }
 
         // Promo Codes
