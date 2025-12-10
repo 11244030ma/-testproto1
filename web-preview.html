@@ -13,15 +13,15 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #FFFDF8;
-            color: #4A4A4A;
-            line-height: 1.5;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            color: #2c2c2c;
+            line-height: 1.6;
             transition: all 0.3s ease;
         }
         
         body.dark-mode {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            color: #e8e8e8;
         }
         
         body.dark-mode .restaurant-card,
@@ -46,33 +46,40 @@
         
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 0;
-            background: linear-gradient(135deg, #F7F5F0 0%, #AFC8A6 100%);
-            border-radius: 22px;
-            margin-bottom: 32px;
+            margin-bottom: 48px;
+            padding: 60px 0 40px 0;
         }
         
         .header h1 {
-            font-size: 34px;
-            font-weight: 300;
-            color: #4A4A4A;
-            margin-bottom: 8px;
+            font-size: 42px;
+            font-weight: 200;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
         }
         
         .header p {
-            font-size: 18px;
-            color: #6B6B6B;
+            font-size: 16px;
+            color: #666;
+            font-weight: 300;
         }
         
         .search-bar {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 22px;
-            padding: 16px 24px;
-            margin-bottom: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 50px;
+            padding: 18px 28px;
+            margin-bottom: 48px;
+            border: 1px solid #e8e8e8;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus-within {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.12);
+            border-color: #ddd;
         }
         
         .search-bar input {
@@ -81,11 +88,12 @@
             outline: none;
             background: transparent;
             font-size: 16px;
-            color: #4A4A4A;
+            color: #2c2c2c;
+            font-weight: 300;
         }
         
         .search-bar input::placeholder {
-            color: #B8B8B8;
+            color: #999;
         }
         
         .restaurants-grid {
@@ -96,28 +104,30 @@
         }
         
         .restaurant-card {
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 20px;
+            background: white;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
-            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
             cursor: pointer;
+            border: 1px solid #f5f5f5;
         }
         
         .restaurant-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+            border-color: #e8e8e8;
         }
         
         .restaurant-image {
             width: 100%;
-            height: 200px;
-            background: linear-gradient(45deg, #AFC8A6, #F7F5F0);
+            height: 180px;
+            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
-            color: white;
+            font-size: 40px;
+            color: #666;
         }
         
         .restaurant-info {
@@ -125,16 +135,18 @@
         }
         
         .restaurant-name {
-            font-size: 22px;
-            font-weight: 600;
-            color: #4A4A4A;
-            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+            letter-spacing: -0.2px;
         }
         
         .restaurant-cuisine {
-            font-size: 16px;
-            color: #6B6B6B;
-            margin-bottom: 12px;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 16px;
+            font-weight: 300;
         }
         
         .restaurant-details {
@@ -148,48 +160,24 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            color: #AFC8A6;
-            font-weight: 600;
-        }
-        
-        .delivery-time {
-            color: #6B6B6B;
+            color: #1a1a1a;
+            font-weight: 500;
             font-size: 14px;
         }
         
+        .delivery-time {
+            color: #888;
+            font-size: 13px;
+            font-weight: 300;
+        }
+        
         .delivery-fee {
-            color: #AFC8A6;
-            font-weight: 600;
-            font-size: 16px;
+            color: #1a1a1a;
+            font-weight: 500;
+            font-size: 14px;
         }
         
-        .view-toggle {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 32px;
-        }
-        
-        .toggle-button {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid #D9D9D9;
-            padding: 12px 24px;
-            border-radius: 16px;
-            margin: 0 8px;
-            cursor: pointer;
-            transition: all 0.2s ease-out;
-            font-size: 16px;
-            color: #4A4A4A;
-        }
-        
-        .toggle-button.active {
-            background: #AFC8A6;
-            color: white;
-            border-color: #AFC8A6;
-        }
-        
-        .toggle-button:hover {
-            transform: scale(0.96);
-        }
+
         
         .map-view {
             background: linear-gradient(135deg, #F7F5F0 0%, #AFC8A6 100%);
@@ -503,56 +491,42 @@
         .main-nav {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            gap: 0;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 4px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .nav-button {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid #D9D9D9;
-            padding: 10px 16px;
-            border-radius: 12px;
+            background: transparent;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 46px;
             cursor: pointer;
             font-size: 14px;
-            color: #4A4A4A;
-            transition: all 0.2s ease-out;
+            color: #666;
+            transition: all 0.3s ease;
+            font-weight: 400;
+            flex: 1;
         }
         
         .nav-button.active {
-            background: #AFC8A6;
+            background: #1a1a1a;
             color: white;
-            border-color: #AFC8A6;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
         
-        .nav-button:hover {
-            transform: scale(0.96);
+        .nav-button:hover:not(.active) {
+            color: #1a1a1a;
         }
         
-        .feature-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .feature-btn {
-            background: linear-gradient(135deg, #AFC8A6 0%, #9BB896 100%);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.2s ease-out;
-        }
-        
-        .feature-btn:hover {
-            transform: scale(0.95);
-            box-shadow: 0 4px 8px rgba(175, 200, 166, 0.3);
-        }
+
         
         /* Spin Wheel Styles */
         .spin-wheel-container {
@@ -571,8 +545,17 @@
             height: 300px;
             border-radius: 50%;
             border: 4px solid #AFC8A6;
-            transition: transform 3s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: 0 8px 24px rgba(175, 200, 166, 0.3);
+            transform-origin: center center;
+        }
+        
+        .spin-wheel.spinning {
+            transition: transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .spin-wheel.reset {
+            transition: transform 0.5s ease-out;
         }
         
         .wheel-pointer {
@@ -1020,6 +1003,177 @@
             background: #F0C878;
         }
 
+        /* Homepage Styles */
+        .homepage-header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #F7F5F0 0%, #AFC8A6 100%);
+            border-radius: 22px;
+            margin-bottom: 40px;
+        }
+        
+        .homepage-header h1 {
+            font-size: 48px;
+            font-weight: 300;
+            color: #4A4A4A;
+            margin-bottom: 16px;
+        }
+        
+        .homepage-header p {
+            font-size: 20px;
+            color: #6B6B6B;
+            margin-bottom: 40px;
+        }
+        
+        .homepage-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .homepage-btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            min-width: 180px;
+        }
+        
+        .customer-btn {
+            background: linear-gradient(135deg, #AFC8A6 0%, #9BB896 100%);
+            color: white;
+        }
+        
+        .restaurant-btn {
+            background: linear-gradient(135deg, #F5D5A8 0%, #F0C878 100%);
+            color: #8B4513;
+        }
+        
+        .admin-btn {
+            background: linear-gradient(135deg, #E8A5A5 0%, #D89595 100%);
+            color: white;
+        }
+        
+        .homepage-btn:hover {
+            transform: scale(0.96);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .homepage-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 32px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card h3 {
+            font-size: 24px;
+            color: #4A4A4A;
+            margin-bottom: 16px;
+        }
+        
+        .feature-card p {
+            color: #6B6B6B;
+            line-height: 1.6;
+        }
+        
+        /* Dashboard Styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding: 24px;
+            background: linear-gradient(135deg, #F7F5F0 0%, #AFC8A6 100%);
+            border-radius: 20px;
+        }
+        
+        .dashboard-header h2 {
+            margin: 0;
+            color: #4A4A4A;
+        }
+        
+        .dashboard-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .dashboard-section {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 24px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .analytics-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .analytics-card {
+            background: linear-gradient(135deg, #F7F5F0 0%, #AFC8A6 100%);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+        }
+        
+        .analytics-card h4 {
+            margin: 0 0 12px 0;
+            color: #4A4A4A;
+            font-size: 16px;
+        }
+        
+        .analytics-number {
+            font-size: 32px;
+            font-weight: 600;
+            color: #4A4A4A;
+            margin: 0;
+        }
+        
+        .settings-form {
+            max-width: 500px;
+        }
+        
+        .settings-form input,
+        .settings-form textarea {
+            margin-bottom: 16px;
+        }
+        
+        .report-item {
+            background: #FDF2F2;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 4px solid #E8A5A5;
+        }
+        
+        .report-item h4 {
+            margin: 0 0 8px 0;
+            color: #C53030;
+        }
+        
+        .report-item p {
+            margin: 0 0 12px 0;
+            color: #6B6B6B;
+        }
+
         @media (max-width: 768px) {
             .restaurants-grid {
                 grid-template-columns: 1fr;
@@ -1027,6 +1181,15 @@
             
             .header h1 {
                 font-size: 28px;
+            }
+            
+            .homepage-header h1 {
+                font-size: 36px;
+            }
+            
+            .homepage-buttons {
+                flex-direction: column;
+                align-items: center;
             }
             
             .container {
@@ -1038,11 +1201,122 @@
                 gap: 8px;
             }
         }
+        /* Floating Action Button */
+        .fab-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .fab-main:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .fab-icon {
+            color: white;
+            font-size: 24px;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+        
+        .fab-main.active .fab-icon {
+            transform: rotate(45deg);
+        }
+        
+        .fab-menu {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .fab-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .fab-item {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid #e8e8e8;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .fab-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <!-- Main Homepage -->
+        <div id="homepageView">
+            <div class="homepage-header">
+                <h1>🍽️ FoodHub</h1>
+                <p>Connect restaurants, customers, and communities</p>
+                <div class="homepage-buttons">
+                    <button class="homepage-btn customer-btn" onclick="enterAsCustomer()">
+                        👤 I'm a Customer
+                    </button>
+                    <button class="homepage-btn restaurant-btn" onclick="enterAsRestaurant()">
+                        🏪 I'm a Restaurant
+                    </button>
+                    <button class="homepage-btn admin-btn" onclick="showLogin('admin')">
+                        ⚙️ Admin Login
+                    </button>
+                </div>
+            </div>
+            
+            <div class="homepage-features">
+                <div class="feature-card">
+                    <h3>🛒 For Customers</h3>
+                    <p>Order from premium restaurants, track deliveries, and enjoy exclusive deals</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🏪 For Restaurants</h3>
+                    <p>Manage your menu, track orders, and grow your business with our platform</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Analytics & Insights</h3>
+                    <p>Real-time data to help restaurants optimize their operations</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer App Header (hidden initially) -->
+        <div class="header" id="customerHeader" style="display: none;">
             <h1>🍽️ Premium Food Delivery</h1>
             <p>Discover amazing restaurants near you</p>
         </div>
@@ -1051,30 +1325,37 @@
             <input type="text" placeholder="Search restaurants, cuisines..." id="searchInput">
         </div>
         
-        <!-- Main Navigation -->
+        <!-- Minimal Navigation -->
         <div class="main-nav">
-            <button class="nav-button active" onclick="showHome()">🏠 Home</button>
-            <button class="nav-button" onclick="showProfile()">👤 Profile</button>
-            <button class="nav-button" onclick="showFavorites()">❤️ Favorites</button>
-            <button class="nav-button" onclick="showOrderHistory()">📋 Orders</button>
-            <button class="nav-button" onclick="toggleDarkMode()">🌙 Dark</button>
-        </div>
-
-        <!-- Feature Buttons -->
-        <div class="feature-buttons">
-            <button class="feature-btn" onclick="showSpinWheel()">🎲 Spin Wheel</button>
-            <button class="feature-btn" onclick="showTrending()">🔥 Trending</button>
-            <button class="feature-btn" onclick="showFilters()">🔍 Filters</button>
-            <button class="feature-btn" onclick="showPromoCodes()">🎁 Promos</button>
-        </div>
-
-        <div class="view-toggle">
-            <button class="toggle-button active" onclick="showListView()">📋 List View</button>
-            <button class="toggle-button" onclick="showMapView()">🗺️ Map View</button>
+            <button class="nav-button active" onclick="showHome()">Home</button>
+            <button class="nav-button" onclick="showFavorites()">Favorites</button>
+            <button class="nav-button" onclick="showOrderHistory()">Orders</button>
+            <button class="nav-button" onclick="showProfile()">Profile</button>
         </div>
         
         <div id="listView" class="restaurants-grid">
             <!-- Restaurants will be populated by JavaScript -->
+        </div>
+        
+        <!-- Floating Action Menu -->
+        <div class="fab-container">
+            <button class="fab-main" onclick="toggleFabMenu()">
+                <span class="fab-icon">+</span>
+            </button>
+            <div class="fab-menu" id="fabMenu">
+                <button class="fab-item" onclick="showSpinWheel()" title="Random Restaurant">
+                    <span>🎲</span>
+                </button>
+                <button class="fab-item" onclick="showFilters()" title="Filters">
+                    <span>🔍</span>
+                </button>
+                <button class="fab-item" onclick="showPromoCodes()" title="Promos">
+                    <span>🎁</span>
+                </button>
+                <button class="fab-item" onclick="toggleDarkMode()" title="Dark Mode">
+                    <span>🌙</span>
+                </button>
+            </div>
         </div>
         
         <div id="mapView" class="map-view" style="display: none;">
@@ -1214,6 +1495,7 @@
                     <div class="wheel-pointer">🔻</div>
                 </div>
                 <button class="spin-button" onclick="spinWheel()">🎯 SPIN!</button>
+                <button class="spin-button" onclick="resetWheel()" style="background: #E8A5A5; margin-top: 12px;">🔄 Reset Wheel</button>
                 <div id="spinResult" class="spin-result"></div>
             </div>
         </div>
@@ -1403,6 +1685,149 @@
                 </div>
             </div>
         </div>
+
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3 id="loginTitle">🔐 Login</h3>
+                <input type="email" id="loginEmail" placeholder="Email" class="address-input">
+                <input type="password" id="loginPassword" placeholder="Password" class="address-input">
+                <div class="modal-buttons">
+                    <button onclick="handleLogin()">Login</button>
+                    <button onclick="closeLogin()">Cancel</button>
+                </div>
+                <p style="margin-top: 16px; text-align: center; color: #6B6B6B;">
+                    Don't have an account? <a href="#" onclick="showSignup()" style="color: #AFC8A6;">Sign up</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Signup Modal -->
+        <div id="signupModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3>📝 Create Account</h3>
+                <input type="text" id="signupName" placeholder="Full Name" class="address-input">
+                <input type="email" id="signupEmail" placeholder="Email" class="address-input">
+                <input type="password" id="signupPassword" placeholder="Password" class="address-input">
+                <select id="userRole" class="payment-select">
+                    <option value="customer">👤 Customer</option>
+                    <option value="restaurant">🏪 Restaurant Owner</option>
+                </select>
+                <div class="modal-buttons">
+                    <button onclick="handleSignup()">Create Account</button>
+                    <button onclick="closeSignup()">Cancel</button>
+                </div>
+                <p style="margin-top: 16px; text-align: center; color: #6B6B6B;">
+                    Already have an account? <a href="#" onclick="showLogin()" style="color: #AFC8A6;">Login</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Restaurant Dashboard -->
+        <div id="restaurantDashboard" style="display: none;">
+            <div class="dashboard-header">
+                <h2>🏪 Restaurant Dashboard</h2>
+                <button class="back-button" onclick="logout()">← Logout</button>
+            </div>
+            
+            <div class="dashboard-nav">
+                <button class="nav-button active" onclick="showRestaurantSection('orders')">📋 Orders</button>
+                <button class="nav-button" onclick="showRestaurantSection('menu')">🍽️ Menu</button>
+                <button class="nav-button" onclick="showRestaurantSection('analytics')">📊 Analytics</button>
+                <button class="nav-button" onclick="showRestaurantSection('settings')">⚙️ Settings</button>
+            </div>
+
+            <div id="restaurantOrders" class="dashboard-section">
+                <h3>📋 Incoming Orders</h3>
+                <div id="restaurantOrdersList"></div>
+            </div>
+
+            <div id="restaurantMenu" class="dashboard-section" style="display: none;">
+                <h3>🍽️ Menu Management</h3>
+                <button class="add-button" onclick="addMenuItem()">+ Add New Item</button>
+                <div id="restaurantMenuList"></div>
+            </div>
+
+            <div id="restaurantAnalytics" class="dashboard-section" style="display: none;">
+                <h3>📊 Analytics</h3>
+                <div class="analytics-cards">
+                    <div class="analytics-card">
+                        <h4>Today's Revenue</h4>
+                        <p class="analytics-number">$1,247.50</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h4>Orders Today</h4>
+                        <p class="analytics-number">23</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h4>Average Rating</h4>
+                        <p class="analytics-number">4.8 ⭐</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="restaurantSettings" class="dashboard-section" style="display: none;">
+                <h3>⚙️ Restaurant Settings</h3>
+                <div class="settings-form">
+                    <input type="text" placeholder="Restaurant Name" class="address-input" value="The Garden Bistro">
+                    <textarea placeholder="Description" class="address-input" style="height: 80px;">Fresh Mediterranean cuisine with locally sourced ingredients</textarea>
+                    <input type="text" placeholder="Bank Account (IBAN)" class="address-input" value="GB29 NWBK 6016 1331 9268 19">
+                    <button class="checkout-button">Save Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" style="display: none;">
+            <div class="dashboard-header">
+                <h2>⚙️ Admin Dashboard</h2>
+                <button class="back-button" onclick="logout()">← Logout</button>
+            </div>
+            
+            <div class="dashboard-nav">
+                <button class="nav-button active" onclick="showAdminSection('overview')">📊 Overview</button>
+                <button class="nav-button" onclick="showAdminSection('restaurants')">🏪 Restaurants</button>
+                <button class="nav-button" onclick="showAdminSection('users')">👥 Users</button>
+                <button class="nav-button" onclick="showAdminSection('reports')">📋 Reports</button>
+            </div>
+
+            <div id="adminOverview" class="dashboard-section">
+                <h3>📊 Platform Overview</h3>
+                <div class="analytics-cards">
+                    <div class="analytics-card">
+                        <h4>Total Restaurants</h4>
+                        <p class="analytics-number">8</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h4>Active Users</h4>
+                        <p class="analytics-number">1,247</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h4>Orders Today</h4>
+                        <p class="analytics-number">156</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="adminRestaurants" class="dashboard-section" style="display: none;">
+                <h3>🏪 Restaurant Management</h3>
+                <div id="adminRestaurantsList"></div>
+            </div>
+
+            <div id="adminUsers" class="dashboard-section" style="display: none;">
+                <h3>👥 User Management</h3>
+                <div id="adminUsersList"></div>
+            </div>
+
+            <div id="adminReports" class="dashboard-section" style="display: none;">
+                <h3>📋 Reports & Issues</h3>
+                <div class="report-item">
+                    <h4>🚨 Payment Issue - Order #12345</h4>
+                    <p>Customer reports payment not processed correctly</p>
+                    <button class="add-button">Resolve</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1549,20 +1974,45 @@
         }
 
         const menuItems = {
-            1: [ // The Garden Bistro
+            1: [ // The Garden Bistro - Mediterranean
                 { id: 1, name: "Mediterranean Bowl", description: "Fresh quinoa, grilled vegetables, feta cheese", price: 16.99, emoji: "🥗" },
                 { id: 2, name: "Grilled Salmon", description: "Atlantic salmon with lemon herbs", price: 24.99, emoji: "🐟" },
                 { id: 3, name: "Lamb Kebabs", description: "Tender lamb with tzatziki sauce", price: 22.99, emoji: "🍢" }
             ],
-            2: [ // Sage & Thyme
+            2: [ // Sage & Thyme - Italian
                 { id: 4, name: "Truffle Pasta", description: "Handmade pasta with truffle cream sauce", price: 19.99, emoji: "🍝" },
                 { id: 5, name: "Margherita Pizza", description: "Fresh mozzarella, basil, tomato sauce", price: 17.99, emoji: "🍕" },
                 { id: 6, name: "Tiramisu", description: "Classic Italian dessert", price: 8.99, emoji: "🍰" }
             ],
-            3: [ // Harvest Moon
+            3: [ // Harvest Moon - American
                 { id: 7, name: "BBQ Burger", description: "Angus beef with bacon and BBQ sauce", price: 15.99, emoji: "🍔" },
                 { id: 8, name: "Buffalo Wings", description: "Spicy wings with blue cheese dip", price: 12.99, emoji: "🍗" },
                 { id: 9, name: "Apple Pie", description: "Homemade with vanilla ice cream", price: 7.99, emoji: "🥧" }
+            ],
+            4: [ // Olive Branch - Greek
+                { id: 10, name: "Greek Salad", description: "Tomatoes, olives, feta, olive oil", price: 14.99, emoji: "🥙" },
+                { id: 11, name: "Moussaka", description: "Layered eggplant with meat sauce", price: 21.99, emoji: "🍆" },
+                { id: 12, name: "Baklava", description: "Honey-soaked phyllo pastry", price: 6.99, emoji: "🍯" }
+            ],
+            5: [ // Golden Spoon - Asian Fusion
+                { id: 13, name: "Pad Thai", description: "Stir-fried noodles with shrimp", price: 18.99, emoji: "🍜" },
+                { id: 14, name: "Sushi Platter", description: "Assorted fresh sushi rolls", price: 26.99, emoji: "🍣" },
+                { id: 15, name: "Mango Sticky Rice", description: "Sweet coconut dessert", price: 7.99, emoji: "🥭" }
+            ],
+            6: [ // Fresh & Co - Healthy
+                { id: 16, name: "Acai Bowl", description: "Superfood bowl with berries", price: 12.99, emoji: "🍓" },
+                { id: 17, name: "Quinoa Salad", description: "Protein-packed with avocado", price: 15.99, emoji: "🥑" },
+                { id: 18, name: "Green Smoothie", description: "Kale, spinach, apple, ginger", price: 8.99, emoji: "🥬" }
+            ],
+            7: [ // The Green Table - Vegetarian
+                { id: 19, name: "Veggie Burger", description: "Plant-based patty with sweet potato fries", price: 16.99, emoji: "🌱" },
+                { id: 20, name: "Buddha Bowl", description: "Roasted vegetables with tahini", price: 17.99, emoji: "🥙" },
+                { id: 21, name: "Vegan Cheesecake", description: "Cashew-based with berry compote", price: 9.99, emoji: "🍰" }
+            ],
+            8: [ // Artisan Kitchen - French
+                { id: 22, name: "Coq au Vin", description: "Braised chicken in red wine", price: 28.99, emoji: "🍷" },
+                { id: 23, name: "Ratatouille", description: "Traditional Provençal stewed vegetables", price: 19.99, emoji: "🍅" },
+                { id: 24, name: "Crème Brûlée", description: "Vanilla custard with caramelized sugar", price: 10.99, emoji: "🔥" }
             ]
         };
 
@@ -1741,6 +2191,7 @@
         }
 
         function hideAllViews() {
+            document.getElementById('homepageView').style.display = 'none';
             document.getElementById('listView').style.display = 'none';
             document.getElementById('mapView').style.display = 'none';
             document.getElementById('menuView').style.display = 'none';
@@ -1756,6 +2207,13 @@
 
         // Navigation Functions
         function showHome() {
+            if (!currentUser) {
+                hideAllViews();
+                hideAllDashboards();
+                document.getElementById('homepageView').style.display = 'block';
+                return;
+            }
+            
             hideAllViews();
             document.getElementById('listView').style.display = 'grid';
             document.getElementById('mapView').style.display = 'none';
@@ -1812,21 +2270,58 @@
             hideAllViews();
             document.getElementById('spinWheelView').style.display = 'block';
             currentView = 'spinWheel';
+            
+            // Reset wheel position when entering spin wheel view
+            resetWheel();
+        }
+        
+        function resetWheel() {
+            const wheel = document.getElementById('spinWheel');
+            const spinButton = document.querySelector('.spin-button');
+            
+            // Add reset class for smooth animation back to 0
+            wheel.classList.add('reset');
+            wheel.classList.remove('spinning');
+            
+            // Reset rotation tracking
+            currentWheelRotation = 0;
+            wheel.style.transform = 'rotate(0deg)';
+            
+            // Reset button text
+            spinButton.disabled = false;
+            spinButton.textContent = '🎯 SPIN!';
+            
+            // Clear previous result
+            document.getElementById('spinResult').innerHTML = '';
         }
 
+        let currentWheelRotation = 0; // Track current rotation
+        
         function spinWheel() {
             const wheel = document.getElementById('spinWheel');
-            const randomRotation = Math.floor(Math.random() * 360) + 1440; // At least 4 full rotations
-            wheel.style.transform = `rotate(${randomRotation}deg)`;
+            const spinButton = document.querySelector('.spin-button');
             
             // Disable spin button during animation
-            const spinButton = document.querySelector('.spin-button');
             spinButton.disabled = true;
             spinButton.textContent = '🎯 SPINNING...';
             
+            // Add spinning class for animation
+            wheel.classList.add('spinning');
+            wheel.classList.remove('reset');
+            
+            // Generate new rotation (always add at least 4 full rotations for good effect)
+            const additionalRotation = Math.floor(Math.random() * 360) + 1440;
+            currentWheelRotation += additionalRotation;
+            
+            // Apply the rotation
+            wheel.style.transform = `rotate(${currentWheelRotation}deg)`;
+            
             setTimeout(() => {
-                const selectedIndex = Math.floor((randomRotation % 360) / 45);
+                // Calculate which section we landed on (8 sections = 45 degrees each)
+                const finalAngle = currentWheelRotation % 360;
+                const selectedIndex = Math.floor(finalAngle / 45);
                 const selectedRestaurant = restaurants[selectedIndex % restaurants.length];
+                
                 document.getElementById('spinResult').innerHTML = `
                     <h3>🎉 You got: ${selectedRestaurant.emoji} ${selectedRestaurant.name}!</h3>
                     <p>${selectedRestaurant.cuisine} • ⭐ ${selectedRestaurant.rating}</p>
@@ -1834,6 +2329,9 @@
                         🍽️ Order from ${selectedRestaurant.name}
                     </button>
                 `;
+                
+                // Remove spinning class
+                wheel.classList.remove('spinning');
                 
                 // Re-enable spin button
                 spinButton.disabled = false;
@@ -2171,8 +2669,297 @@
             `).join('');
         }
 
+        // Global state
+        let currentUser = null;
+        let currentUserRole = null;
+        
+        // Homepage Functions
+        function enterAsCustomer() {
+            showLogin('customer');
+        }
+        
+        function enterAsRestaurant() {
+            showLogin('restaurant');
+        }
+        
+        // Authentication Functions
+        function showLogin(role = 'customer') {
+            document.getElementById('loginModal').style.display = 'flex';
+            document.getElementById('loginTitle').textContent = 
+                role === 'admin' ? '⚙️ Admin Login' : 
+                role === 'restaurant' ? '🏪 Restaurant Login' : '👤 Customer Login';
+            window.pendingRole = role;
+        }
+        
+        function closeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+        
+        function showSignup() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('signupModal').style.display = 'flex';
+        }
+        
+        function closeSignup() {
+            document.getElementById('signupModal').style.display = 'none';
+            document.getElementById('signupName').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPassword').value = '';
+        }
+        
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Simulate login
+            currentUser = { email, role: window.pendingRole };
+            currentUserRole = window.pendingRole;
+            
+            closeLogin();
+            
+            if (currentUserRole === 'admin') {
+                showAdminDashboard();
+            } else if (currentUserRole === 'restaurant') {
+                showRestaurantDashboard();
+            } else {
+                showCustomerApp();
+            }
+        }
+        
+        function handleSignup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const role = document.getElementById('userRole').value;
+            
+            if (!name || !email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Simulate signup
+            currentUser = { name, email, role };
+            currentUserRole = role;
+            
+            closeSignup();
+            
+            if (role === 'restaurant') {
+                showRestaurantDashboard();
+            } else {
+                showCustomerApp();
+            }
+        }
+        
+        function logout() {
+            currentUser = null;
+            currentUserRole = null;
+            hideAllViews();
+            hideAllDashboards();
+            document.getElementById('homepageView').style.display = 'block';
+        }
+        
+        // Dashboard Functions
+        function showCustomerApp() {
+            hideAllViews();
+            hideAllDashboards();
+            document.getElementById('homepageView').style.display = 'none';
+            document.getElementById('customerHeader').style.display = 'block';
+            document.getElementById('listView').style.display = 'grid';
+            renderRestaurants();
+            renderMarkers();
+        }
+        
+        function showRestaurantDashboard() {
+            hideAllViews();
+            hideAllDashboards();
+            document.getElementById('restaurantDashboard').style.display = 'block';
+            loadRestaurantOrders();
+            loadRestaurantMenu();
+        }
+        
+        function showAdminDashboard() {
+            hideAllViews();
+            hideAllDashboards();
+            document.getElementById('adminDashboard').style.display = 'block';
+            loadAdminData();
+        }
+        
+        function hideAllDashboards() {
+            document.getElementById('restaurantDashboard').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('customerHeader').style.display = 'none';
+        }
+        
+        function showRestaurantSection(section) {
+            document.querySelectorAll('#restaurantDashboard .dashboard-section').forEach(s => s.style.display = 'none');
+            document.getElementById('restaurant' + section.charAt(0).toUpperCase() + section.slice(1)).style.display = 'block';
+            
+            document.querySelectorAll('#restaurantDashboard .nav-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        function showAdminSection(section) {
+            document.querySelectorAll('#adminDashboard .dashboard-section').forEach(s => s.style.display = 'none');
+            document.getElementById('admin' + section.charAt(0).toUpperCase() + section.slice(1)).style.display = 'block';
+            
+            document.querySelectorAll('#adminDashboard .nav-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        // Restaurant Dashboard Functions
+        function loadRestaurantOrders() {
+            const ordersList = document.getElementById('restaurantOrdersList');
+            ordersList.innerHTML = `
+                <div class="order-item">
+                    <div class="order-header">
+                        <div>
+                            <h4>Order #12345 - John Doe</h4>
+                            <p>2 items • $32.45 • 5 min ago</p>
+                        </div>
+                        <div class="order-status preparing">PREPARING</div>
+                    </div>
+                    <div class="order-details">
+                        <p><strong>Items:</strong> Mediterranean Bowl x1, Grilled Salmon x1</p>
+                        <p><strong>Address:</strong> 123 Main St, San Francisco</p>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <button class="add-button">Mark Ready</button>
+                        <button class="add-button" style="background: #E8A5A5; margin-left: 8px;">Cancel Order</button>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-header">
+                        <div>
+                            <h4>Order #12344 - Sarah Wilson</h4>
+                            <p>1 item • $16.99 • 12 min ago</p>
+                        </div>
+                        <div class="order-status delivered">READY</div>
+                    </div>
+                    <div class="order-details">
+                        <p><strong>Items:</strong> Mediterranean Bowl x1</p>
+                        <p><strong>Address:</strong> 456 Oak Ave, San Francisco</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function loadRestaurantMenu() {
+            const menuList = document.getElementById('restaurantMenuList');
+            const items = menuItems[1]; // Garden Bistro menu
+            
+            menuList.innerHTML = items.map(item => `
+                <div class="menu-item">
+                    <div class="menu-item-info">
+                        <h4>${item.emoji} ${item.name}</h4>
+                        <p>${item.description}</p>
+                        <div class="menu-item-price">$${item.price}</div>
+                    </div>
+                    <div>
+                        <button class="add-button" onclick="editMenuItem(${item.id})">Edit</button>
+                        <button class="add-button" style="background: #E8A5A5; margin-left: 8px;" onclick="deleteMenuItem(${item.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function addMenuItem() {
+            alert('Add new menu item functionality - would open a form modal');
+        }
+        
+        function editMenuItem(id) {
+            alert(`Edit menu item ${id} - would open edit form`);
+        }
+        
+        function deleteMenuItem(id) {
+            if (confirm('Are you sure you want to delete this menu item?')) {
+                alert(`Menu item ${id} deleted`);
+                loadRestaurantMenu();
+            }
+        }
+        
+        // Admin Functions
+        function loadAdminData() {
+            const restaurantsList = document.getElementById('adminRestaurantsList');
+            restaurantsList.innerHTML = restaurants.map(restaurant => `
+                <div class="order-item">
+                    <div class="order-header">
+                        <div>
+                            <h4>${restaurant.emoji} ${restaurant.name}</h4>
+                            <p>${restaurant.cuisine} • ⭐ ${restaurant.rating}</p>
+                        </div>
+                        <div class="order-status delivered">ACTIVE</div>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <button class="add-button">View Details</button>
+                        <button class="add-button" style="background: #E8A5A5; margin-left: 8px;">Suspend</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            const usersList = document.getElementById('adminUsersList');
+            usersList.innerHTML = `
+                <div class="order-item">
+                    <div class="order-header">
+                        <div>
+                            <h4>👤 John Doe</h4>
+                            <p>john.doe@email.com • Customer • Joined Dec 2024</p>
+                        </div>
+                        <div class="order-status delivered">ACTIVE</div>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-header">
+                        <div>
+                            <h4>🏪 Garden Bistro Owner</h4>
+                            <p>owner@gardenbistro.com • Restaurant • Joined Nov 2024</p>
+                        </div>
+                        <div class="order-status delivered">ACTIVE</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Floating Action Button
+        let fabMenuOpen = false;
+        
+        function toggleFabMenu() {
+            const fabMain = document.querySelector('.fab-main');
+            const fabMenu = document.getElementById('fabMenu');
+            
+            fabMenuOpen = !fabMenuOpen;
+            
+            if (fabMenuOpen) {
+                fabMain.classList.add('active');
+                fabMenu.classList.add('active');
+            } else {
+                fabMain.classList.remove('active');
+                fabMenu.classList.remove('active');
+            }
+        }
+        
+        // Close FAB menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const fabContainer = document.querySelector('.fab-container');
+            if (!fabContainer.contains(event.target) && fabMenuOpen) {
+                toggleFabMenu();
+            }
+        });
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            // Show homepage by default
+            document.getElementById('homepageView').style.display = 'block';
+            hideAllViews();
+            hideAllDashboards();
+            
+            // Initialize customer app data (hidden)
             renderRestaurants();
             renderMarkers();
             
